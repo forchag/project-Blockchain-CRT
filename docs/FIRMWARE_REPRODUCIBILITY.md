@@ -1,6 +1,6 @@
 # Firmware reproducibility
 
-`firmware/esp32` is the reference firmware for an ESP32-WROOM-32 node with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project. Whether this exact source revision and binary were deployed on the 2025 field nodes has not been independently verified from device flash images, contemporaneous build records or hardware capture. The separately deposited data repository's `MANIFEST.csv` describes one compiled firmware binary as **not** a deployed-node binary. Accordingly, treat this as **reference software whose implementation can be tested**, not an authenticated historical deployment image. See [PROVENANCE_AUDIT.md](PROVENANCE_AUDIT.md).
+`firmware/esp32` is the reference firmware for an ESP32-WROOM-32 node with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project. This repository doesn't show that this exact source revision or binary ran on the 2025 field nodes: no device flash image or contemporaneous build record is published. Treat it as reference software whose behavior can be tested, not as the deployment image.
 
 ## Hardware profile
 
@@ -78,7 +78,7 @@ pip install platformio==6.1.16
 firmware/esp32/build_firmware.sh node
 ```
 
-The build writes `build/firmware/node/firmware.bin` and `build_manifest.json` (git-ignored); `build_manifest.example.json` shows the fields with placeholder values. Other environments: `node_3frame` (FRAME_MODE 3; the gateway must then run with `frames.frame_mode: 3`) and `bench_node` (compiled-in node identity 1, zone 0, position 0). Library versions are pinned in `platformio.ini`: espressif32 6.9.0 (Arduino-ESP32 2.0.17, ESP-IDF 4.4.7), LoRa 0.8.0, Adafruit SHT31 2.2.2, Adafruit BusIO 1.16.1, BH1750 1.3.0, RTClib 2.1.4, OneWire 2.3.8, DallasTemperature 3.11.0. The source repository specified OneWire and DallasTemperature with `^` ranges; they are pinned here to the versions selected for this reproducible build; no independent historical deployment manifest has been authenticated here.
+The build writes `build/firmware/node/firmware.bin` and `build_manifest.json` (git-ignored); `build_manifest.example.json` shows the fields with placeholder values. Other environments: `node_3frame` (FRAME_MODE 3; the gateway must then run with `frames.frame_mode: 3`) and `bench_node` (compiled-in node identity 1, zone 0, position 0). Library versions are pinned in `platformio.ini`: espressif32 6.9.0 (Arduino-ESP32 2.0.17, ESP-IDF 4.4.7), LoRa 0.8.0, Adafruit SHT31 2.2.2, Adafruit BusIO 1.16.1, BH1750 1.3.0, RTClib 2.1.4, OneWire 2.3.8, DallasTemperature 3.11.0. The original project specified OneWire and DallasTemperature with `^` ranges; they're pinned here to the versions selected for this reproducible build.
 
 CI (`.github/workflows/build-firmware.yml`) builds all three environments and uploads the binary and manifest as workflow artifacts. No binary is committed.
 
@@ -88,14 +88,14 @@ CI (`.github/workflows/build-firmware.yml`) builds all three environments and up
 python3 firmware/esp32/tools/gen_calibration_nvs.py --cal-dir <your calibration CSVs> --deployment <your roster> --out build/nvs
 ```
 
-Then generate and flash the NVS partition with ESP-IDF's `nvs_partition_gen.py` and `esptool.py` as the tool's docstring shows. Do not flash records built from `examples/calibration/`; they are invented for testing code, not the deployment's calibration records, which are restricted under [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
+Then generate and flash the NVS partition with ESP-IDF's `nvs_partition_gen.py` and `esptool.py` as the tool's docstring shows. Do not flash records built from `examples/calibration/`; they're invented for testing code. The deployment's calibration records are withheld for privacy reasons ([DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)).
 
 ## Known discrepancies and scope
 
 Two things sit outside this firmware's scope and are worth naming.
 
-**POLL/ACK in the published description.** The study's Data/Code availability statement describes the reference firmware as having no POLL/ACK exchange. The current reference firmware has POLL/ACK support, whereas the manuscript's availability statement describes a reference without that exchange. This discrepancy requires explicit reconciliation; the code's existence does not establish that it was used during the 2025 field deployment.
+**POLL/ACK in the published description.** The manuscript's Data/Code availability statement describes the reference firmware as having no POLL/ACK exchange, but this firmware implements one. The statement and the code need reconciling, and the code's existence doesn't show the exchange ran during the 2025 field deployment.
 
-**Adaptive modes.** The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this reference firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes are not independently recreated from this source tree, and their historical implementation and data provenance require separate verification.
+**Adaptive modes.** The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this reference firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes can't be recreated from this source tree, and their logs are among the withheld field records.
 
 The ESP32 cross-compile of the Arduino-dependent files runs only in CI (`.github/workflows/build-firmware.yml`); the host tests cover the platform-independent logic only.

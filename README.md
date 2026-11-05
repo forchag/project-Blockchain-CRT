@@ -2,13 +2,13 @@
 
 Code, tests, analytical models and example configuration for *CRT-Based Multi-Channel Residue Transmission with Gateway-Side Parallel Demodulation for Distributed Edge Blockchain Computing: A Scalable IoT Cluster Architecture for Arid Agriculture*.
 
-**Three goals:** (1) reproduce the five-sensor firmware, gateway protocol and Hyperledger Fabric implementation; (2) independently regenerate reported tables and figures from properly identified input datasets; (3) distinguish independently verified original 2025 records from reconstructed material and later experiments.
+The package has two aims: make the five-sensor firmware, gateway protocol and Hyperledger Fabric implementation reproducible, and recompute every result that follows from published formulas and parameters. Field and bench results depend on data that is withheld for privacy reasons, so they are reported under their labels rather than re-derived.
 
 ## Repository scope
 
-This repository contains firmware, gateway software, chaincode and analysis scripts, with supporting configuration, tests and documentation. Research datasets, captured logs, ledger archives and the bundled source snapshot are not included. Small illustrative fixtures in `examples/` support software tests; they are not original field evidence.
+This repository contains firmware, gateway software, chaincode and analysis scripts, with supporting configuration, tests and documentation. The research data from the 2025 field deployment and the 2026 cloud experiments is withheld for privacy reasons and is not included. Small illustrative fixtures in `examples/` support the software tests; they are invented, not field evidence.
 
-See [data availability](docs/DATA_AVAILABILITY.md) for running analysis with separately supplied inputs. The software can reproduce protocol behavior without establishing which firmware binary or configuration was deployed in 2025 or during the 2026 cloud experiments.
+See [data availability](docs/DATA_AVAILABILITY.md) for running the analysis on your own inputs. The software reproduces protocol behavior; it doesn't establish which firmware binary or configuration was deployed in 2025 or during the 2026 cloud experiments.
 
 ## Architecture implemented in the reference software
 
@@ -21,10 +21,10 @@ The firmware in `firmware/esp32/` handles soil moisture, soil pH, temperature, h
 | Goal | What is available now | Remaining validation |
 |---|---|---|
 | Code reproducibility | ESP32 source and tests; gateway MAC and submitter; chaincode and example Fabric network | Run full tests/CI; compare recovered deployment builds and configurations with source; resolve any mismatch with manuscript methods |
-| Results reproducibility | Analytical scripts, expected analytical results, benchmark drivers and illustrative test inputs | Integrate eligible data; map source rows to tables/figures; run independent re-computation; report mismatches and missing inputs |
-| Data authenticity | Original records must be supplied separately | Verify original collection chain, creation history, checksums, source instruments/hosts and whether files were reprocessed or reconstructed |
+| Results reproducibility | Analytical scripts, expected analytical results, benchmark drivers and illustrative test inputs | Map inputs to tables/figures; run re-computation; report mismatches |
+| Data | Withheld for privacy reasons; not in this repository | Re-computation of field and benchmark results requires access to the withheld records |
 
-The manuscript's benchmark and field figures are **reported claims pending per-source provenance verification** in this project. Treat results produced from formula assumptions as analytical, from reference code as software tests, and from new experiments as new results; do not substitute one for another.
+The manuscript's benchmark and field figures are reported here, not re-derived, because the records behind them are withheld. Treat results produced from formula assumptions as analytical, from reference code as software tests, and from new experiments as new results; do not substitute one for another.
 
 ## Quick start
 
@@ -46,25 +46,27 @@ A cross-compiled ESP32 firmware build is handled by `firmware/esp32/build_firmwa
 
 ## Documentation
 
-- [Data integration: copy, link, quarantine, verify](docs/DATA_INTEGRATION_PLAN.md)
-- [Data availability and the three research goals](docs/DATA_AVAILABILITY.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Data availability](docs/DATA_AVAILABILITY.md)
 - [Evidence limitations](docs/EVIDENCE_BOUNDARIES.md)
 - [Firmware reproducibility](docs/FIRMWARE_REPRODUCIBILITY.md)
 - [Gateway protocol](docs/GATEWAY_PROTOCOL.md)
 - [Blockchain reproducibility](docs/BLOCKCHAIN_REPRODUCIBILITY.md)
 - [Analytical reproducibility](docs/ANALYTICAL_REPRODUCIBILITY.md)
+- [Results workflows](docs/RESULTS_REPRODUCIBILITY.md)
+- [Software versions](docs/SOFTWARE_VERSIONS.md)
 - [Illustrative inputs](examples/README.md)
 
 ## Research integrity and security
 
-Do not relabel reconstructed or newly generated files as original field measurements. Never publish operational private keys, passwords, enrollment secrets, identifying participant information or unreviewed certificate/ledger materials. Preserve file provenance and document discrepancies rather than changing numbers simply to match the manuscript.
+Don't relabel generated files as field measurements. Never commit operational private keys, passwords, enrollment secrets, participant information, certificates or ledger exports; `tests/test_public_data_safety.py` and the `public-safety` workflow check for them. Document discrepancies rather than changing numbers to match the manuscript.
 
 ## Analysis inputs
 
-`make reproduce` uses public parameters and illustrative fixtures. For analysis of original field records, supply an external agronomic CSV directory:
+`make reproduce` uses public parameters and illustrative fixtures. To run the field analysis on your own agronomic CSVs, pass their directory:
 
 ```bash
 make field-results FIELD_DATA=/absolute/path/to/agronomic
 ```
 
-No datasets are downloaded automatically. Outputs go to the ignored `results/` directory. Software tests and illustrative outputs do not independently verify historical measurements.
+Nothing is downloaded automatically. Outputs go to the git-ignored `results/` directory. Software tests and illustrative outputs don't verify historical measurements.

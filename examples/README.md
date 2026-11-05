@@ -4,7 +4,7 @@ Illustrative data for testing code. Not original field evidence.
 
 Everything in this directory was written for the public reproducibility package. Values are invented
 or computed from the protocol code; none was copied, sampled, anonymised or regenerated from the
-field deployment's records. Identifiers carry an `ex-` / `EX-` prefix, timestamps fall in 2030, and
+field deployment's records, which are withheld for privacy reasons. Identifiers carry an `ex-` / `EX-` prefix, timestamps fall in 2030, and
 transaction IDs are `example-txid-NNNN` placeholders, so no file can be mistaken for a log, a ledger
 export or a measurement from the 2025 campaign. `tests/test_public_data_safety.py` enforces this.
 
@@ -29,8 +29,8 @@ numbers, not records: no raw trace, log line, ledger entry or per-plot value sta
 this repository. The analysis prints them under their labels and never substitutes them for, or
 derives them from, the analytical results.
 
-Do not copy original datasets (not included in this repository) into `examples/`. Its entries must pass the verification process described in [docs/DATA_INTEGRATION_PLAN.md](../docs/DATA_INTEGRATION_PLAN.md). This directory remains illustrative even if the candidate dataset is integrated elsewhere.
+Never copy real measurements into `examples/`; `tests/test_public_data_safety.py` fails on field identifiers and field-era timestamps. See [docs/DATA_AVAILABILITY.md](../docs/DATA_AVAILABILITY.md).
 
-Regenerate nothing here from private data. To test with your own measurements, write them to a new
+Regenerate nothing here from real data. To test with your own measurements, write them to a new
 file outside `examples/` and point the relevant script at it (`--trials`, `--config`, `--plots`,
 `--bench`); the outputs then describe your data, under your provenance label.

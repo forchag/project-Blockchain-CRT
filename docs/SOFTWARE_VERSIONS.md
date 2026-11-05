@@ -16,7 +16,7 @@ Everything the package builds or runs is pinned. The table lists where each pin 
 | jsonschema | 4.25.1 | example-data schema tests |
 | pytest | 8.3.4 | test suite |
 
-The source repository's lock also pinned `protobuf` for its ledger-export tooling, which is not part of this package.
+The original project's lock also pinned `protobuf` for ledger-export tooling, which isn't part of this package.
 
 ## R
 
@@ -34,7 +34,7 @@ R 4.3 or newer, base packages only (`stats`), for `analysis/agronomic_statistics
 | adafruit/Adafruit BusIO | 1.16.1 | `platformio.ini` |
 | claws/BH1750 | 1.3.0 | `platformio.ini` |
 | adafruit/RTClib | 2.1.4 | `platformio.ini` |
-| paulstoffregen/OneWire | 2.3.8 | `platformio.ini` (was `^2.3.8` in the source repository) |
+| paulstoffregen/OneWire | 2.3.8 | `platformio.ini` (was `^2.3.8` in the original project) |
 | milesburton/DallasTemperature | 3.11.0 | `platformio.ini` (was `^3.11.0`) |
 | Host test compiler | any C++17 compiler; CI uses the Ubuntu 24.04 g++ (13.3) | `firmware/esp32/tests/Makefile` |
 
@@ -52,6 +52,6 @@ Chaincode image: `golang:1.22.5-bookworm` build stage, `gcr.io/distroless/static
 
 Hyperledger Fabric 2.5.16 (peer, orderer, CLI binaries), Fabric CA 1.5.13, cAdvisor v0.49.1, nicolaka/netshoot v0.13 (failover trials with injected delay). Image digests are in [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md) and `blockchain/example-network/.env.example`.
 
-## Environment used to prepare the branch
+## Environment used to prepare the package
 
 Ubuntu 24.04 container, Python 3.13.18, Go 1.24.7, g++ 13.3.0, Docker 29.9.2, R 4.3.3. The full Python suite, the C++ host tests, the three Go modules, the example Fabric network bring-up, the eight-step integration script, a one-level RBAC benchmark and one failover trial ran there. The ESP32 cross-compile did not (PlatformIO registry unreachable); CI performs it.
