@@ -1,6 +1,6 @@
 # Firmware reproducibility
 
-`firmware/esp32` is the firmware that ran on the ESP32 field nodes; the gateway and Fabric side ran on Raspberry Pi (see [GATEWAY_PROTOCOL.md](GATEWAY_PROTOCOL.md) and [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md)). Each node is an ESP32-WROOM-32 with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described in the paper.
+`firmware/esp32` is the firmware that ran on the ESP32 field nodes, as verified by the authors against the field build; the gateway and Fabric side ran on Raspberry Pi (see [GATEWAY_PROTOCOL.md](GATEWAY_PROTOCOL.md) and [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md)). Each node is an ESP32-WROOM-32 with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described in the paper.
 
 ## Hardware profile
 

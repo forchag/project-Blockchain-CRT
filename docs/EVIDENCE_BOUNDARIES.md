@@ -1,6 +1,6 @@
 # Evidence boundaries
 
-This repository demonstrates the encoding, the protocol and the arithmetic. The paper reports bench and field measurements whose records are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request (see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)). What this repository establishes is different from what those records establish, and this document spells out which is which.
+This repository demonstrates the encoding, the protocol and the arithmetic. The paper reports bench and field measurements whose records are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request (see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)). What this repository establishes is different from what those records establish, and this document spells out which is which. The authors verified that the firmware, gateway software and chaincode in this repository are the code that ran in the 2025 field deployment. The limits below concern the measurements, not the identity of the code.
 
 
 ## What a passing run establishes

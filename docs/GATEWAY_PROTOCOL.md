@@ -1,6 +1,6 @@
 # Gateway protocol
 
-The gateway side of the LoRa CRT protocol lives in `gateway/mac` (Python 3.13) and `gateway/fabric-submitter` (Go 1.22+). This is the gateway code used in the 2025 deployment. The deployment's gateway logs are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request.
+The gateway side of the LoRa CRT protocol lives in `gateway/mac` (Python 3.13) and `gateway/fabric-submitter` (Go 1.22+). This is the gateway code used in the 2025 deployment, as verified by the authors. The deployment's gateway logs are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request.
 
 ## Frames
 
