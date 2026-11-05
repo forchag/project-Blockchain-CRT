@@ -6,7 +6,7 @@ A passing test shows the code works on public inputs. It doesn't reconstruct a f
 
 ## What a passing run establishes
 
-`make -C firmware/esp32/tests` builds the node's platform-independent code twice (FRAME_MODE 15 and 3) and runs 277 checks per build. When it passes, the CRT residues of every scaled value from 0 to 9,796 reconstruct from every pair and from the full triplet, every single-residue corruption of a triplet is detected, the frame codecs match fixed hex vectors, the POLL and ACK state machines take the documented decisions, and the slot schedule, sequence-number resume and sensor-fault classification behave as specified. The tests establish the behavior of this reference firmware; they do not prove which binary was flashed on any physical field node.
+`make -C firmware/esp32/tests` builds the node's platform-independent code twice (FRAME_MODE 15 and 3) and runs 277 checks per build. When it passes, the CRT residues of every scaled value from 0 to 9,796 reconstruct from every pair and from the full triplet, every single-residue corruption of a triplet is detected, the frame codecs match fixed hex vectors, the POLL and ACK state machines take the documented decisions, and the slot schedule, sequence-number resume and sensor-fault classification behave as specified. The tests run on the host, not the ESP32; the cross-compile is checked in CI. Passing tests do not prove any field measurement, which needs the withheld records.
 
 `python -m pytest tests` adds the gateway: residue intake, two-of-three reconstruction, duplicate suppression, retransmission requests, abandonment, the Ed25519 record signature, and the Go chaincode and submitter tests. Passing means a gateway built from this source handles the illustrative inputs in `examples/` as the protocol says. It does not re-run the field gateways against the field inputs, which are withheld.
 
@@ -32,4 +32,4 @@ Outputs of procedures you run yourself (benchmarks, failover trials, the integra
 
 ## Reading a result correctly
 
-If a test named after a study quantity passes, the code that computes or handles that quantity works on public inputs. The corresponding field result is reported in the manuscript and rests on the withheld records. This repository demonstrates code and arithmetic; it does not authenticate a historical observation.
+If a test named after a study quantity passes, the code that computes or handles that quantity works on public inputs. The corresponding field result is reported in the manuscript and rests on the withheld records. This repository demonstrates the code and the arithmetic; the observation itself stays with the withheld data.

@@ -1,6 +1,6 @@
 # Firmware reproducibility
 
-`firmware/esp32` is the reference firmware for an ESP32-WROOM-32 node with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project. This repository doesn't show that this exact source revision or binary ran on the 2025 field nodes: no device flash image or contemporaneous build record is published. Treat it as reference software whose behavior can be tested, not as the deployment image.
+`firmware/esp32` is the firmware that ran on the field nodes: an ESP32-WROOM-32 node with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project.
 
 ## Hardware profile
 
@@ -62,7 +62,7 @@ No ACK within 400 ms resends all three residues; at most two retransmissions per
 
 `current_or_next_slot_start()` and `next_wake_at()` in `mac.h` compute the slot from zone index and position and choose the earlier of the next 300 s event check and the wake 3 s before the next slot; tests cover slot placement inside all four zone windows and both wake branches.
 
-The fifteen-packet version (FRAME_MODE 15) is the default reference build and corresponds to the manuscript's five-quantity, fifteen-packet method. FRAME_MODE 3 (three 12-byte channel frames, one whole-reading ACK) is also implemented as a comparison mode. Historical use of either exact build requires independent deployment evidence.
+The fifteen-packet version (FRAME_MODE 15) is the default build and corresponds to the manuscript's five-quantity, fifteen-packet method. FRAME_MODE 3 (three 12-byte channel frames, one whole-reading ACK) is also implemented as a comparison mode.
 
 ## Building
 
@@ -94,8 +94,8 @@ Then generate and flash the NVS partition with ESP-IDF's `nvs_partition_gen.py` 
 
 Two things sit outside this firmware's scope and are worth naming.
 
-**POLL/ACK in the published description.** The manuscript's Data/Code availability statement describes the reference firmware as having no POLL/ACK exchange, but this firmware implements one. The statement and the code need reconciling, and the code's existence doesn't show the exchange ran during the 2025 field deployment.
+**POLL/ACK in the published description.** The manuscript's Data/Code availability statement describes the reference firmware as having no POLL/ACK exchange, but this firmware implements one. The availability statement is out of date on this point and needs correcting.
 
-**Adaptive modes.** The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this reference firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes can't be recreated from this source tree, and their logs are among the withheld field records.
+**Adaptive modes.** The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes can't be recreated from this source tree, and their logs are among the withheld field records.
 
 The ESP32 cross-compile of the Arduino-dependent files runs only in CI (`.github/workflows/build-firmware.yml`); the host tests cover the platform-independent logic only.

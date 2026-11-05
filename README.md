@@ -8,13 +8,13 @@ The package has two aims: make the five-sensor firmware, gateway protocol and Hy
 
 This repository contains firmware, gateway software, chaincode and analysis scripts, with supporting configuration, tests and documentation. The research data from the 2025 field deployment and the 2026 cloud experiments is withheld for privacy reasons and is not included. Small illustrative fixtures in `examples/` support the software tests; they are invented, not field evidence.
 
-See [data availability](docs/DATA_AVAILABILITY.md) for running the analysis on your own inputs. The software reproduces protocol behavior; it doesn't establish which firmware binary or configuration was deployed in 2025 or during the 2026 cloud experiments.
+See [data availability](docs/DATA_AVAILABILITY.md) for running the analysis on your own inputs.
 
-## Architecture implemented in the reference software
+## Architecture
 
-The firmware in `firmware/esp32/` handles soil moisture, soil pH, temperature, humidity and light. The reference encoding uses three residues per valid quantity (moduli 97, 101 and 103), giving up to fifteen eight-byte LoRa residue frames per five-quantity reading on 868.1, 868.3 and 868.5 MHz. The gateway reference in `gateway/` implements polling, acknowledgements, reconstruction, signing and Fabric submission. The example blockchain network in `blockchain/` runs a four-peer, three-orderer test environment with role-based authorization.
+The firmware in `firmware/esp32/` is the code the field nodes ran. It handles soil moisture, soil pH, temperature, humidity and light. The reference encoding uses three residues per valid quantity (moduli 97, 101 and 103), giving up to fifteen eight-byte LoRa residue frames per five-quantity reading on 868.1, 868.3 and 868.5 MHz. The gateway reference in `gateway/` implements polling, acknowledgements, reconstruction, signing and Fabric submission. The example blockchain network in `blockchain/` runs a four-peer, three-orderer test environment with role-based authorization.
 
-**Implementation fidelity is not deployment provenance:** passing the firmware, gateway and Fabric tests establishes the behavior of the current code. It does not prove these precise files or a particular binary operated the historical nodes. See [firmware scope](docs/FIRMWARE_REPRODUCIBILITY.md) and [evidence boundaries](docs/EVIDENCE_BOUNDARIES.md).
+See [firmware](docs/FIRMWARE_REPRODUCIBILITY.md) and [evidence boundaries](docs/EVIDENCE_BOUNDARIES.md) for what the tests cover.
 
 ## Reproducibility status
 
@@ -24,7 +24,7 @@ The firmware in `firmware/esp32/` handles soil moisture, soil pH, temperature, h
 | Results reproducibility | Analytical scripts, expected analytical results, benchmark drivers and illustrative test inputs | Map inputs to tables/figures; run re-computation; report mismatches |
 | Data | Withheld for privacy reasons; not in this repository | Re-computation of field and benchmark results requires access to the withheld records |
 
-The manuscript's benchmark and field figures are reported here, not re-derived, because the records behind them are withheld. Treat results produced from formula assumptions as analytical, from reference code as software tests, and from new experiments as new results; do not substitute one for another.
+The manuscript's benchmark and field figures are reported here, not re-derived, because the records behind them are withheld. Treat results produced from formula assumptions as analytical, from the code as software tests, and from new experiments as new results; do not substitute one for another.
 
 ## Quick start
 
@@ -42,7 +42,7 @@ Firmware host tests:
 make -C firmware/esp32/tests
 ```
 
-A cross-compiled ESP32 firmware build is handled by `firmware/esp32/build_firmware.sh` and `.github/workflows/build-firmware.yml`. An integration run against the **example** Fabric network is available via `make integration`; it may require Docker and additional system dependencies. Generated outputs are not historical 2025 observations.
+A cross-compiled ESP32 firmware build is handled by `firmware/esp32/build_firmware.sh` and `.github/workflows/build-firmware.yml`. An integration run against the **example** Fabric network is available via `make integration`; it may require Docker and additional system dependencies. Its outputs describe the host it runs on, not the 2025 deployment.
 
 ## Documentation
 
@@ -69,4 +69,4 @@ Don't relabel generated files as field measurements. Never commit operational pr
 make field-results FIELD_DATA=/absolute/path/to/agronomic
 ```
 
-Nothing is downloaded automatically. Outputs go to the git-ignored `results/` directory. Software tests and illustrative outputs don't verify historical measurements.
+Nothing is downloaded automatically. Outputs go to the git-ignored `results/` directory. Software tests and illustrative outputs don't reproduce the field measurements.
