@@ -12,7 +12,7 @@ The published firmware is the CRT sensing and transmission path that ran on the 
 | 4 | Humidity | Sensirion SHT31-D (0x44) | I²C | GPIO21 / GPIO22 |
 | 5 | Illuminance | ROHM BH1750FVI (0x23) | I²C | GPIO21 / GPIO22, MTreg 69, one-time high resolution |
 
-The DS18B20 replaced the SHT31 for field temperature. The SHT31's temperature channel is still read for bench calibration diagnostics and never feeds `Reading::q[Q_TEMPERATURE]` or the pH Nernst compensation. Radio: SPI on GPIO18/19/23, NSS GPIO5, RST GPIO14, DIO0 GPIO26; +10 dBm on PA_BOOST, sync word 0x12. RTC: DS3231 on I²C 0x68.
+The DS18B20 replaced the SHT31 for field temperature. The SHT31's temperature channel is still read for bench calibration diagnostics and never feeds `Reading::q[Q_TEMPERATURE]` or the pH Nernst compensation. Radio: SPI on GPIO18/19/23, NSS GPIO5, RST GPIO14, DIO0 GPIO26; +14 dBm on PA_BOOST, sync word 0x12. RTC: DS3231 on I²C 0x68.
 
 ## What the firmware does, and where it is tested
 

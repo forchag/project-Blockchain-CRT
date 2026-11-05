@@ -22,7 +22,7 @@ radio:
   low_data_rate_optimize: false
   preamble_symbols: 8
   sync_word: 0x12              # private network
-  node_tx_power_dbm: 10        # RFM95W PA_BOOST, RegPaConfig 0xF8
+  node_tx_power_dbm: 14        # RFM95W PA_BOOST, RegPaConfig 0xFC
   gateway_tx_power_dbm: 14
   duty_cycle_limit: 0.01
 

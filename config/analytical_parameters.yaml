@@ -35,7 +35,7 @@ reliability:                # independent-erasure model, no retransmission unles
 energy_model:               # analytical radio energy = supply voltage x TX current x airtime
   supply_v: 3.3             # RFM95W supply rail on the node (firmware/esp32 pin map)
   tx_current_ma: 29.0       # ASSUMED. SX1276 datasheet typical IDDT at +13 dBm on the RFO pin.
-                            # The node transmits at +10 dBm on PA_BOOST, for which the datasheet gives
+                            # The node transmits at +14 dBm on PA_BOOST, for which the datasheet gives
                             # no typical figure; replace with your own measurement.
   assumed: true
 

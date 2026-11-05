@@ -236,7 +236,7 @@ namespace {
 constexpr long SF = 9;
 constexpr long BW_HZ = 125000;
 constexpr int CR_DENOM = 5;            // 4/5
-constexpr int TX_POWER_DBM = 10;       // PA_BOOST, RegPaConfig 0xF8
+constexpr int TX_POWER_DBM = 14;       // PA_BOOST, RegPaConfig 0xFC
 constexpr int SYNC_WORD = 0x12;        // private network
 constexpr long PREAMBLE = 8;
 }  // namespace

@@ -34,7 +34,7 @@ Per-packet reduction (246.784 - 123.904) / 246.784 = 49.79 % `[derived (from ana
 
 ## 9.3 Transmission energy
 
-The analytical model is `E = V x I_tx x T_air`, with V = 3.3 V and an assumed I_tx = 29 mA (SX1276 typical at +13 dBm on RFO; the node's +10 dBm PA_BOOST setting has no datasheet typical), so P_tx = 95.7 mW and an 8-byte frame costs 11.86 mJ `[analytical]`. Ratios between frame types equal airtime ratios at constant power. A complete-node model per 1800 s cycle adds sleep (150 µA), awake (40 mA for 3 s) and receive windows (10.8 mA for 2 s) at 3.7 V, all assumed; it reports radio TX at about 10 % of node energy under those assumptions. Radio-only and complete-node energy are separate outputs.
+The analytical model is `E = V x I_tx x T_air`, with V = 3.3 V and an assumed I_tx = 29 mA (SX1276 typical at +13 dBm on RFO; the node's +14 dBm PA_BOOST setting has no datasheet typical), so P_tx = 95.7 mW and an 8-byte frame costs 11.86 mJ `[analytical]`. Ratios between frame types equal airtime ratios at constant power. A complete-node model per 1800 s cycle adds sleep (150 µA), awake (40 mA for 3 s) and receive windows (10.8 mA for 2 s) at 3.7 V, all assumed; it reports radio TX at about 10 % of node energy under those assumptions. Radio-only and complete-node energy are separate outputs.
 
 The manuscript's 12.32 / 24.86 / 16.36 mJ per residue / raw / fixed-point packet and 184.8 mJ per reading were measured on the original bench. The script reads them from `examples/bench_energy_values.example.yaml` and prints them as `[bench-measured, not reproducible]`; the 7.43x energy ratio is `derived (from bench-measured)`. If that file is absent, the script prints "historical bench value not included" in their place and continues.
 
