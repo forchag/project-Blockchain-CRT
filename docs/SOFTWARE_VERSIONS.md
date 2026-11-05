@@ -50,7 +50,7 @@ Chaincode image: `golang:1.22.5-bookworm` build stage, `gcr.io/distroless/static
 
 ## Fabric
 
-Hyperledger Fabric 2.5.16 (peer, orderer, CLI binaries), Fabric CA 1.5.13, cAdvisor v0.49.1, nicolaka/netshoot v0.13 (failover trials with injected delay). Image digests are in [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md) and `blockchain/example-network/.env.example`.
+Hyperledger Fabric 2.5.16 (peer, orderer, CLI binaries), Fabric CA 1.5.13, cAdvisor v0.49.1, nicolaka/netshoot v0.13 (failover trials with injected delay). Image digests are in [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md) and `blockchain/example-network/.env.example`. These pins are for the example network; the field deployment ran Fabric 2.5.1 on Raspberry Pi 4B (ARM64).
 
 ## Environment used to prepare the package
 
