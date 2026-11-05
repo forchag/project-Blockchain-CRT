@@ -1,0 +1,147 @@
+{
+  "_README": "Illustrative data for testing code. Not original field evidence. WriteSensor submissions with placeholder transaction IDs; outcomes are what hrbac-cc decides for the stated identity (tests/test_blockchain_integration.py). Not ledger exports.",
+  "channel": "benchchannel",
+  "chaincode": "hrbac-cc",
+  "function": "WriteSensor",
+  "transactions": [
+    {
+      "txid": "example-txid-0001",
+      "identity": {
+        "enrollment_id": "ex-gw-north",
+        "role": "Gateway",
+        "zone": "North",
+        "sensors": "ex-sns-001|ex-sns-002|ex-sns-003"
+      },
+      "args": {
+        "sensor_id": "ex-sns-002",
+        "reading_id": "R002-0031-20300115",
+        "residues": "3,3,2,3,3",
+        "reading": {
+          "captured_at": "2030-01-15T00:30:01.250Z",
+          "soil_moisture": 33.0,
+          "temp_c": 29.1,
+          "humidity_pct": 40.2,
+          "ph": 7.1,
+          "light_lux": 22000,
+          "quality": {
+            "ph": "reconstructed"
+          }
+        }
+      },
+      "expected": {
+        "decision": "allowed",
+        "submitter": "ex-gw-north",
+        "submitter_role": "Gateway"
+      }
+    },
+    {
+      "txid": "example-txid-0002",
+      "identity": {
+        "enrollment_id": "ex-gw-north",
+        "role": "Gateway",
+        "zone": "North",
+        "sensors": "ex-sns-001|ex-sns-002|ex-sns-003"
+      },
+      "args": {
+        "sensor_id": "ex-sns-004",
+        "reading_id": "R004-0031-20300115",
+        "residues": "3,3,3,3,3",
+        "reading": {
+          "captured_at": "2030-01-15T00:30:01.250Z",
+          "temp_c": 20.0
+        }
+      },
+      "expected": {
+        "decision": "denied",
+        "error": "SENSOR_NOT_DELEGATED"
+      }
+    },
+    {
+      "txid": "example-txid-0003",
+      "identity": {
+        "enrollment_id": "ex-sns-001",
+        "role": "Sensor",
+        "zone": "North"
+      },
+      "args": {
+        "sensor_id": "ex-sns-001",
+        "reading_id": "R001-0032-20300115",
+        "residues": "",
+        "reading": {
+          "captured_at": "2030-01-15T01:00:00Z",
+          "soil_moisture": 41.4,
+          "temp_c": 25.3
+        }
+      },
+      "expected": {
+        "decision": "allowed",
+        "submitter": "ex-sns-001",
+        "submitter_role": "Sensor"
+      }
+    },
+    {
+      "txid": "example-txid-0004",
+      "identity": {
+        "enrollment_id": "ex-sns-001",
+        "role": "Sensor",
+        "zone": "North"
+      },
+      "args": {
+        "sensor_id": "ex-sns-002",
+        "reading_id": "R002-0032-20300115",
+        "residues": "",
+        "reading": {
+          "captured_at": "2030-01-15T01:00:00Z",
+          "temp_c": 25.3
+        }
+      },
+      "expected": {
+        "decision": "denied",
+        "error": "ROLE_INSUFFICIENT"
+      }
+    },
+    {
+      "txid": "example-txid-0005",
+      "identity": {
+        "enrollment_id": "ex-usr-001",
+        "role": "Farmer",
+        "zone": "North"
+      },
+      "args": {
+        "sensor_id": "ex-sns-001",
+        "reading_id": "R001-0033-20300115",
+        "residues": "",
+        "reading": {
+          "captured_at": "2030-01-15T01:30:00Z",
+          "temp_c": 25.3
+        }
+      },
+      "expected": {
+        "decision": "denied",
+        "error": "OP_NOT_PERMITTED"
+      }
+    },
+    {
+      "txid": "example-txid-0006",
+      "identity": {
+        "enrollment_id": "ex-gw-north",
+        "role": "Gateway",
+        "zone": "North",
+        "sensors": "ex-sns-001|ex-sns-002|ex-sns-003"
+      },
+      "args": {
+        "sensor_id": "ex-sns-003",
+        "reading_id": "R003-0031-20300115",
+        "residues": "3,3,3,3,3",
+        "reading": {
+          "captured_at": "2030-01-15T00:30:02Z",
+          "temp_c": 120.0
+        }
+      },
+      "expected": {
+        "decision": "denied",
+        "error": "malformed reading"
+      }
+    }
+  ]
+}

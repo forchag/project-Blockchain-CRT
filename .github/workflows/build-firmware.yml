@@ -1,0 +1,50 @@
+# Builds the ESP32 reference firmware from source with pinned PlatformIO packages.
+# The binary is a CI artifact of this source. It is not committed, and it is not evidence of
+# which binary was flashed on the field nodes.
+name: build-firmware
+
+on:
+  push:
+    paths: ["firmware/**", ".github/workflows/build-firmware.yml"]
+  pull_request:
+    paths: ["firmware/**", ".github/workflows/build-firmware.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [node, node_3frame, bench_node]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - run: pip install --require-hashes -r requirements-lock.txt && pip install platformio==6.1.16
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ hashFiles('firmware/esp32/platformio.ini') }}
+      - name: Host tests first
+        run: make -C firmware/esp32/tests
+      - name: Build ${{ matrix.env }}
+        run: firmware/esp32/build_firmware.sh ${{ matrix.env }}
+      - name: Manifest sanity
+        run: |
+          python - <<'PY'
+          import json
+          m = json.load(open("build/firmware/${{ matrix.env }}/build_manifest.json"))
+          assert m["evidence_status"] == "built_from_public_source" and len(m["binary_sha256"]) == 64, m
+          print(m["build_id"], m["binary_size_bytes"], "bytes", m["binary_sha256"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firmware-${{ matrix.env }}-${{ github.sha }}
+          path: |
+            build/firmware/${{ matrix.env }}/firmware.bin
+            build/firmware/${{ matrix.env }}/build_manifest.json
+          retention-days: 30

@@ -1,0 +1,16 @@
+# Illustrative data for testing code. Not original field evidence.
+# Self-authored CRT vectors: scaled = round((value + offset) x factor); residues mod (97, 101, 103).
+# reconstruct_* columns: value recovered from that residue subset (CRT status if not OK).
+case,quantity,value,scaled,r97,r101,r103,reconstruct_all,reconstruct_97_101,reconstruct_97_103,reconstruct_101_103,note
+worked_example,temperature,25.3,653,71,47,35,653,653,653,653,manuscript worked example: 25.3 degC -> 653 -> (71, 47, 35)
+zero,soil_moisture,0.0,0,0,0,0,0,0,0,0,smallest scaled value
+soil_typical,soil_moisture,41.4,414,26,10,2,414,414,414,414,
+temp_min,temperature,-40.0,0,0,0,0,0,0,0,0,offset makes -40 degC scale to 0
+temp_max,temperature,85.0,1250,86,38,14,1250,1250,1250,1250,max_scaled 1250
+humidity_max,humidity,100.0,1000,30,91,73,1000,1000,1000,1000,max_scaled 1000
+ph_neutral,ph,7.0,700,21,94,82,700,700,700,700,
+ph_max,ph,14.0,1400,42,87,61,1400,1400,1400,1400,max_scaled 1400
+lux_typical,illuminance,1500.0,300,9,98,94,300,300,300,300,5 lx resolution
+lux_cap,illuminance,48980.0,9796,96,100,11,9796,9796,9796,9796,max_scaled 9796 = 9797 - 1: largest legitimate value
+independence_a,raw_integer,,5,5,5,5,5,5,5,5,5 and 9802 share residues mod 97 and 101
+independence_b,raw_integer,,9802,5,5,17,INCONSISTENT,5,OUT_OF_RANGE,OUT_OF_RANGE,9802 = 5 + 97 x 101: outside the legitimate range

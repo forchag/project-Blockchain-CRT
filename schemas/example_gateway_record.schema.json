@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/public-reproducibility/schemas/example_gateway_record.schema.json",
+  "title": "Gateway completed-reading record (one line of readings.jsonl)",
+  "description": "Written by gateway/gateway_service.py for each completed reading and read by gateway/fabric-submitter (GatewayReading). gateway_signature is present when the service runs with --signing-key.",
+  "type": "object",
+  "required": ["gateway_id", "node_id", "sensor_id", "device_id", "seq", "event", "received_at_ms", "values", "status", "residues_received", "retries"],
+  "additionalProperties": false,
+  "$defs": {
+    "quantities": {"enum": ["soil_moisture", "temperature", "humidity", "ph", "illuminance"]},
+    "per_quantity": {
+      "type": "object",
+      "propertyNames": {"$ref": "#/$defs/quantities"},
+      "minProperties": 5,
+      "maxProperties": 5
+    }
+  },
+  "properties": {
+    "gateway_id": {"type": "string"},
+    "node_id": {"type": "integer", "minimum": 1, "maximum": 254},
+    "sensor_id": {"type": "string"},
+    "device_id": {"type": "string"},
+    "seq": {"type": "integer", "minimum": 0, "maximum": 65535},
+    "event": {"type": "boolean"},
+    "received_at_ms": {"type": "integer", "minimum": 1},
+    "values": {"allOf": [{"$ref": "#/$defs/per_quantity"}, {"additionalProperties": {"type": ["number", "null"]}}]},
+    "status": {"allOf": [{"$ref": "#/$defs/per_quantity"}, {"additionalProperties": {"enum": ["reconstructed", "invalid_at_node", "abandoned"]}}]},
+    "residues_received": {"allOf": [{"$ref": "#/$defs/per_quantity"}, {"additionalProperties": {"type": "integer", "minimum": 0, "maximum": 3}}]},
+    "retries": {"type": "integer", "minimum": 0},
+    "gateway_signature": {
+      "type": "object",
+      "required": ["alg", "key_id", "sha256", "sig"],
+      "additionalProperties": false,
+      "properties": {
+        "alg": {"const": "Ed25519"},
+        "key_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "sig": {"type": "string", "contentEncoding": "base64"}
+      }
+    }
+  }
+}

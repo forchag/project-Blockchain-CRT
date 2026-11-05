@@ -1,0 +1,15 @@
+# Illustrative data for testing code. Not original field evidence.
+# Invented plots for analysis/agronomic_statistics.R (RCBD demo). Not the field trial's plots or results.
+plot_id,block_id,crop,treatment,area_ha,yield_kg,water_m3,labour_h,labour_cost_usd,provenance
+EX-P01,1,tomato,traditional,0.40,9504,960,63,158,illustrative
+EX-P02,1,tomato,blockchain_iot,0.40,10080,768,54,136,illustrative
+EX-P03,1,pepper,traditional,0.40,4000,800,56,140,illustrative
+EX-P04,1,pepper,blockchain_iot,0.40,4116,640,47,117,illustrative
+EX-P05,2,tomato,traditional,0.40,9216,922,64,160,illustrative
+EX-P06,2,tomato,blockchain_iot,0.40,9870,737,55,139,illustrative
+EX-P07,2,pepper,traditional,0.40,3840,768,56,140,illustrative
+EX-P08,2,pepper,blockchain_iot,0.40,4032,614,48,119,illustrative
+EX-P09,3,tomato,traditional,0.40,9984,998,64,160,illustrative
+EX-P10,3,tomato,blockchain_iot,0.40,10483,799,54,136,illustrative
+EX-P11,3,pepper,traditional,0.40,4202,832,57,141,illustrative
+EX-P12,3,pepper,blockchain_iot,0.40,4368,666,48,119,illustrative

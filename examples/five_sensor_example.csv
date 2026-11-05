@@ -1,0 +1,9 @@
+# Illustrative data for testing code. Not original field evidence.
+# Invented, physically plausible readings for an arid-climate plot (not historical; 2030 timestamps).
+reading_id,node_id,sensor_id,captured_at,soil_moisture_vwc,temperature_c,humidity_rh,ph,illuminance_lx,provenance
+EX-R001,1,ex-sns-001,2030-01-15T00:30:00Z,41.4,25.3,64.3,6.82,1500.0,illustrative
+EX-R002,2,ex-sns-002,2030-01-15T01:30:00Z,18.2,38.6,21.5,7.45,48500.0,illustrative
+EX-R003,3,ex-sns-003,2030-01-15T02:30:00Z,27.9,12.4,77.8,6.95,0.0,illustrative
+EX-R004,1,ex-sns-001,2030-01-15T03:30:00Z,33.0,29.1,40.2,7.1,22000.0,illustrative
+EX-R005,2,ex-sns-002,2030-01-15T04:30:00Z,12.5,44.8,14.6,7.8,31250.0,illustrative
+EX-R006,3,ex-sns-003,2030-01-15T05:30:00Z,55.6,18.0,88.4,6.4,350.0,illustrative

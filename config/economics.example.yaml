@@ -1,0 +1,35 @@
+# Inputs of analysis/economic_reconciliation.py.
+#
+# Two kinds of value live here and are kept apart:
+#   * public assumptions (tariff, exchange rate, discount rate, horizon, cost of the installation);
+#   * season_inputs: the water, labour and yield differences between treated and control plots.
+#     In the manuscript these are FIELD-MEASURED and need restricted records. The values below are
+#     ILLUSTRATIVE round numbers chosen only to exercise the formulas; they are not field results.
+# The script's output is "derived from public tariff assumptions"; with these season_inputs it is a
+# worked example, not a reproduction of the field cost observation.
+_README: "Illustrative data for testing code. Not original field evidence."
+
+currency: USD
+capex_usd: 3540.0              # one-off installation cost (manuscript default)
+opex_annual_usd: 400.0         # recurring cost per year (manuscript default)
+water:
+  tariff_tnd_per_m3: 0.100     # Tunisian agricultural irrigation tariff assumed for the site
+  tariff_sensitivity_tnd_per_m3: [0.050, 0.150, 0.300]
+  fx_tnd_per_usd: 3.1
+discount_rate: 0.08
+discount_sensitivity: [0.05, 0.15]
+horizon_years: 5
+seasons_per_year: 2
+
+season_inputs:                 # per season, treated minus control (ILLUSTRATIVE)
+  provenance: illustrative
+  water_saved_m3: 1200.0
+  labour_saved_usd: 600.0
+  yield_gain_usd: 250.0
+
+# Published outcome, transcribed for a consistency check only (ROI and payback must agree:
+# payback = 1 / ROI when ROI = net annual benefit / capex). Not reproduced from field data here.
+manuscript_reported:
+  label: "derived (from field-measured + public tariff)"
+  roi_pct: 99.0
+  payback_years: 1.01

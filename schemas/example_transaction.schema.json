@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/public-reproducibility/schemas/example_transaction.schema.json",
+  "title": "Example WriteSensor transaction (examples/example_transactions.json)",
+  "description": "Illustrative submissions with placeholder transaction IDs and the decision hrbac-cc is expected to return. Not a ledger export: real Fabric transaction IDs are 64 hex characters and never appear in the examples.",
+  "type": "object",
+  "required": ["_README", "channel", "chaincode", "function", "transactions"],
+  "properties": {
+    "_README": {"type": "string", "pattern": "Not original field evidence"},
+    "channel": {"type": "string"},
+    "chaincode": {"const": "hrbac-cc"},
+    "function": {"const": "WriteSensor"},
+    "transactions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["txid", "identity", "args", "expected"],
+        "additionalProperties": false,
+        "properties": {
+          "txid": {"type": "string", "pattern": "^example-txid-[0-9]{4}$"},
+          "identity": {
+            "type": "object",
+            "required": ["enrollment_id", "role"],
+            "properties": {
+              "enrollment_id": {"type": "string", "pattern": "^ex-"},
+              "role": {"enum": ["Sensor", "Gateway", "Farmer", "Agronomist", "Certifier", "SupplyChain", "Admin"]},
+              "zone": {"type": "string"},
+              "sensors": {"type": "string"}
+            }
+          },
+          "args": {
+            "type": "object",
+            "required": ["sensor_id", "reading_id", "residues", "reading"],
+            "properties": {
+              "sensor_id": {"type": "string"},
+              "reading_id": {"type": "string", "pattern": "^R[0-9]{3}-[0-9]{4}-2030[0-9]{4}$"},
+              "residues": {"type": "string", "pattern": "^$|^[0-3](,[0-3]){4}$"},
+              "reading": {"type": "object", "required": ["captured_at"]}
+            }
+          },
+          "expected": {
+            "type": "object",
+            "required": ["decision"],
+            "properties": {
+              "decision": {"enum": ["allowed", "denied"]},
+              "error": {"type": "string"},
+              "submitter": {"type": "string"},
+              "submitter_role": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

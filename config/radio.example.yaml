@@ -1,0 +1,103 @@
+# Radio, framing, schedule, ACK and retry parameters of the LoRa CRT protocol.
+# Values are those of the reference implementation (gateway/mac, firmware/esp32); the firmware
+# constants in firmware/esp32/main.cpp, mac.h and lora_protocol.cpp must match them, and
+# tests/test_gateway_mac.py checks the shared values.
+#
+# Public example file. It carries protocol parameters only; the node roster lives in
+# config/deployment.example.yaml (illustrative). Confirm the permitted radio band and duty-cycle
+# rules for your site before transmitting with these settings.
+
+version: 1
+
+radio:
+  region: EU868
+  sub_band: g1                 # 868.0-868.6 MHz, 1 % duty cycle per device (ETSI EN 300 220-2)
+  channels_hz: [868100000, 868300000, 868500000]   # residue index i -> channel i
+  poll_channel_hz: 868100000   # Poll and ACK frames
+  spreading_factor: 9
+  bandwidth_hz: 125000
+  coding_rate: "4/5"
+  explicit_header: true
+  crc: true
+  low_data_rate_optimize: false
+  preamble_symbols: 8
+  sync_word: 0x12              # private network
+  node_tx_power_dbm: 10        # RFM95W PA_BOOST, RegPaConfig 0xF8
+  gateway_tx_power_dbm: 14
+  duty_cycle_limit: 0.01
+
+frames:
+  residue_bytes: 8
+  poll_bytes: 10
+  ack_bytes: 8
+  quantities: 5
+  residues_per_quantity: 3
+  # Framing. 15: one 8-byte residue frame per quantity per channel, one ACK per quantity.
+  # 3: one 12-byte channel frame per channel with all five residues, one ACK per reading. Node firmware must be
+  # built with the matching FRAME_MODE (platformio envs node / node_3frame); the two do not interoperate.
+  frame_mode: 15
+  channel_bytes: 12
+  packets_per_reading: 15      # = frame_mode
+  moduli: [97, 101, 103]
+  legitimate_range: 9797
+
+schedule:
+  cycle_s: 1800                # one reading per node per cycle
+  cycle_alignment: utc         # cycles start at hh:00:00 and hh:30:00 UTC
+  zone_window_s: 450           # four zones, one window each
+  zone_order: [North, South, East, West]
+  node_slot_s: 34              # 13 x 34 s = 442 s, 8 s spare at the end of each window
+  node_wake_lead_s: 3
+  poll_listen_s: 6             # node RX window for its Poll, from slot start - 1 s
+  guard_interval_ms: 2000      # accepted poll timing error around slot start
+  poll_jitter_ms: 250          # uniform random delay added to each poll (de-synchronises neighbours)
+  turnaround_ms: 60            # node RX->TX after the poll
+  inter_frame_gap_ms: 25
+  zone_coordination_offset_s:  # start of each zone window inside the cycle
+    North: 0
+    South: 450
+    East: 900
+    West: 1350
+
+ack:
+  one_ack_per_quantity: true
+  ack_delay_ms: 30             # gateway waits after the quantity's last residue
+  ack_window_ms: 400           # node listens this long per quantity
+  request_retx_when_received_lt: 2   # residues needed to reconstruct
+  restore_redundancy: false    # if true, also request the third residue when only two arrived
+
+retry:
+  ack_timeout_ms: 400
+  max_retries_per_quantity: 2
+  max_poll_attempts: 2         # gateway re-polls a silent node once in the same slot
+  poll_response_timeout_ms: 2500
+  duplicate_window_readings: 8 # (node, seq, quantity) remembered for duplicate suppression
+
+event_reports:
+  enabled: true
+  check_interval_s: 300
+  soil_moisture_delta_vwc: 5.0
+  min_spacing_s: 600
+  only_in_own_zone_window: true
+
+# ---------------------------------------------------------------- analytical capacity model
+# Read only by analysis/reproduce_analytical_results.py (section 9.5). Every result computed from
+# this block is labelled [analytical capacity, not measured field capacity].
+capacity:
+  # Downlink (gateway) duty-cycle ceiling. Per node and cycle the gateway sends one POLL and one
+  # ACK per acknowledgement unit (5 in FRAME_MODE 15). The manuscript's 96-node figure assumes an
+  # 8-byte POLL; the implemented PollFrame is 10 bytes (frames.poll_bytes above). Both are reported.
+  poll_frame_bytes_assumed: 8
+  poll_frame_bytes_implemented: 10
+  ack_frame_bytes: 8
+  acks_per_node: 5
+  downlink_retx_fraction: 0.0     # extra ACK/POLL transmissions per node as a share of the base load
+  duty_cycle_window_s: 1800       # one cycle
+  duty_cycle_limit: 0.01          # ETSI EN 300 220-2, sub-band g1 (868.0-868.6 MHz), per transmitter
+  gateways: 4                     # one per zone; each has its own duty-cycle budget
+  # Uplink stress ceiling (M/D/1 stability bound rho < 1 across the residue channels)
+  stress_window_s: 60
+  channels: 3
+  raw_frame_bytes: 34             # uncompressed reference frame
+  # Receive windows used to check that one reading fits a node slot
+  node_rx_windows_ms: {poll_listen: 6000, ack_window: 400}

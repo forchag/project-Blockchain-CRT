@@ -1,0 +1,74 @@
+# Parameters of every analytical result in analysis/reproduce_analytical_results.py.
+# Each value is either a protocol constant (taken from the reference implementation), a published
+# model parameter, or an ASSUMPTION marked as such. Nothing here is a field or bench measurement.
+_README: "Public analytical parameters. Assumed values are marked 'assumed' and are illustrative."
+
+lora:                       # Semtech SX127x time-on-air (AN1200.13)
+  spreading_factor: 9
+  bandwidth_hz: 125000
+  coding_rate: 1            # 4/(4+1) = 4/5
+  explicit_header: true
+  crc: true
+  low_data_rate_optimize: false
+  preamble_symbols: 8
+
+frame_bytes:
+  residue: 8                # one residue of one quantity (FRAME_MODE 15)
+  channel: 12               # five residues of one channel (FRAME_MODE 3)
+  fixed_point: 13           # compact fixed-point baseline (benchmarks/fixed_point_baseline.py)
+  raw: 34                   # uncompressed reference frame
+  poll_implemented: 10      # PollFrame as implemented in firmware/esp32 and gateway/mac
+  ack: 8
+
+crt:
+  moduli: [97, 101, 103]
+  quantities: 5
+  residues_per_quantity: 3
+  worked_example: {quantity: temperature, value_c: 25.3, offset: 40.0, factor: 10.0, scaled: 653, residues: [71, 47, 35]}
+  independence_example: {a: 5, b: 9802}   # 9802 = 5 + 97 x 101: same residues mod 97 and 101
+
+reliability:                # independent-erasure model, no retransmission unless rounds > 0
+  loss_probabilities: [0.01, 0.02, 0.05, 0.10, 0.20, 0.30]
+  headline_loss_probabilities: [0.10, 0.20, 0.30]
+  retry_rounds: [0, 1, 2]
+
+energy_model:               # analytical radio energy = supply voltage x TX current x airtime
+  supply_v: 3.3             # RFM95W supply rail on the node (firmware/esp32 pin map)
+  tx_current_ma: 29.0       # ASSUMED. SX1276 datasheet typical IDDT at +13 dBm on the RFO pin.
+                            # The node transmits at +10 dBm on PA_BOOST, for which the datasheet gives
+                            # no typical figure; replace with your own measurement.
+  assumed: true
+
+node_energy_model:          # ASSUMED, illustrative: complete-node energy per 1800 s cycle
+  assumed: true
+  cycle_s: 1800
+  supply_v: 3.7             # 18650 Li-ion nominal
+  sleep_current_ua: 150.0   # deep sleep + RTC + gated sensor front end
+  awake_current_ma: 40.0    # ESP32 at 80 MHz, radio idle, sensors powered
+  awake_s: 3.0              # wake lead: sensing (~1.5 s) + radio init + poll wait
+  rx_current_ma: 10.8       # SX1276 RX, LnaBoost on (datasheet typical)
+  rx_s_per_reading: 2.0     # poll listen + five 400 ms ACK windows (upper bound)
+
+capacity_queue:             # M/D/1 uplink stress model; see config/radio.example.yaml capacity
+  stress_window_s: 60
+  channels: 3
+  packets_per_reading: {crt: 15, raw: 1}
+  example_loads_readings_per_window: [24, 48, 72, 90]
+
+transmission_cost_index:    # TCI = alpha * E_norm + beta * A_norm + gamma * P_norm (lower is better)
+  alpha: 0.5                # energy weight
+  beta: 0.3                 # airtime weight
+  gamma: 0.2                # processing weight
+  normalization: max        # each component divided by its maximum across the compared schemes
+  # Processing time per PACKET, as a gateway/node profiler records it. ILLUSTRATIVE values: the
+  # manuscript's processing measurements are not published. The CRT figure is per residue packet
+  # and is multiplied by 15 to get a per-READING cost before normalisation.
+  processing_ms_per_packet: {crt: 0.40, fixed_point: 0.90, raw: 0.30}
+  packets_per_reading: {crt: 15, fixed_point: 1, raw: 1}
+  processing_inputs_provenance: illustrative
+
+raft:                       # etcdraft options of blockchain/example-network/configtx.yaml
+  tick_interval_ms: 500
+  election_tick: 10         # election timeout randomised in [election_tick, 2 x election_tick) ticks
+  heartbeat_tick: 1
+  batch_timeout_ms: 500

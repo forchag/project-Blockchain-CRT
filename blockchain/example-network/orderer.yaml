@@ -1,0 +1,99 @@
+# Orderer configuration of the EXAMPLE network: Hyperledger Fabric 2.5.16, Raft x3,
+# ECDSA P-256 MSP identities created fresh by cryptogen at `network.sh up`.
+# It is not the field deployment's orderer configuration, which is not published.
+# (The source repository's benchmark ran Fabric 3.0.0 with Ed25519 MSP identities; Fabric 2.5 MSPs
+# accept ECDSA only, so Ed25519 appears here solely as the gateway's application-layer record
+# signature, see gateway/gateway_service.py.)
+#
+# Per-node values (listen port, MSP, TLS paths, cluster ports) are overridden by
+# ORDERER_* variables in docker-compose.yaml.
+#
+# Batch timeout, message-count threshold and batch-size limits are CHANNEL
+# parameters: they live in configtx.yaml (BatchTimeout 500ms, MaxMessageCount 100,
+# AbsoluteMaxBytes 10 MB, PreferredMaxBytes 2 MB) and are written into the genesis
+# block; this file cannot override them. Raft tick/election settings are likewise
+# in configtx.yaml (EtcdRaft.Options); this file holds the node-local Raft WAL,
+# snapshot and cluster transport settings.
+
+General:
+  ListenAddress: 0.0.0.0
+  ListenPort: 7050
+  TLS:
+    Enabled: true
+    PrivateKey: tls/server.key
+    Certificate: tls/server.crt
+    RootCAs: [tls/ca.crt]
+    ClientAuthRequired: false
+    ClientRootCAs:
+  Keepalive:
+    ServerMinInterval: 60s
+    ServerInterval: 7200s
+    ServerTimeout: 20s
+  MaxRecvMsgSize: 104857600
+  MaxSendMsgSize: 104857600
+  # (General.Throttling exists only in Fabric 3.x; Fabric 2.5 has no broadcast rate limiter to disable.)
+  Cluster:
+    SendBufferSize: 100
+    ClientCertificate: tls/server.crt
+    ClientPrivateKey: tls/server.key
+    ListenPort:
+    ListenAddress:
+    ServerCertificate:
+    ServerPrivateKey:
+    DialTimeout: 5s
+    RPCTimeout: 7s
+    ReplicationBufferSize: 20971520
+    ReplicationPullTimeout: 5s
+    ReplicationRetryTimeout: 5s
+    ReplicationMaxRetries: 12
+    CertExpirationWarningThreshold: 168h
+  BootstrapMethod: none            # channel participation API only (no system channel; Fabric >= 2.3)
+  LocalMSPDir: msp
+  LocalMSPID: OrdererMSP
+  Profile:
+    Enabled: false
+    Address: 0.0.0.0:6060
+  BCCSP:
+    Default: SW
+    SW: {Hash: SHA2, Security: 256, FileKeyStore: {KeyStore:}}
+  Authentication:
+    TimeWindow: 15m
+
+FileLedger:
+  Location: /var/hyperledger/production/orderer
+
+Debug:
+  BroadcastTraceDir:
+  DeliverTraceDir:
+
+Operations:
+  ListenAddress: 0.0.0.0:9443      # /healthz and /metrics (consensus_etcdraft_is_leader, ..._leader_changes)
+  TLS:
+    Enabled: false
+    Certificate:
+    PrivateKey:
+    ClientAuthRequired: false
+    ClientRootCAs: []
+
+Metrics:
+  Provider: prometheus
+
+Admin:
+  ListenAddress: 0.0.0.0:7053      # channel participation API (osnadmin)
+  TLS:
+    Enabled: true
+    Certificate: tls/server.crt
+    PrivateKey: tls/server.key
+    RootCAs: [tls/ca.crt]
+    ClientAuthRequired: true
+    ClientRootCAs: [tls/ca.crt]
+
+ChannelParticipation:
+  Enabled: true
+  MaxRequestBodySize: 1 MB
+
+Consensus:
+  WALDir: /var/hyperledger/production/orderer/etcdraft/wal
+  SnapDir: /var/hyperledger/production/orderer/etcdraft/snapshot
+  EvictionSuspicion: 10m
+  TickIntervalOverride:            # never override: the channel's 500ms tick is part of the measured config

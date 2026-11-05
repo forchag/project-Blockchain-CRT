@@ -1,0 +1,26 @@
+# Illustrative data for testing code. Not original field evidence. Invented coefficients for firmware/esp32/tools/gen_calibration_nvs.py; never flash onto a sensor.
+device_id,sensor_id,calibration_timestamp,reference_rh_pct,raw_rh_pct,rh_gain,rh_offset,t_gain,t_offset,provenance
+ex-node-001,ex-sns-001,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-001,ex-sns-001,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-002,ex-sns-002,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-002,ex-sns-002,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-003,ex-sns-003,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-003,ex-sns-003,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-004,ex-sns-004,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-004,ex-sns-004,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-005,ex-sns-005,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-005,ex-sns-005,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-006,ex-sns-006,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-006,ex-sns-006,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-007,ex-sns-007,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-007,ex-sns-007,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-008,ex-sns-008,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-008,ex-sns-008,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-009,ex-sns-009,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-009,ex-sns-009,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-010,ex-sns-010,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-010,ex-sns-010,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-011,ex-sns-011,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-011,ex-sns-011,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative
+ex-node-012,ex-sns-012,2030-01-10T09:00:00Z,33.0,32.18,1.01,0.5,1.0,0.0,illustrative
+ex-node-012,ex-sns-012,2030-01-10T09:00:00Z,75.0,73.76,1.01,0.5,1.0,0.0,illustrative

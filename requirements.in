@@ -1,0 +1,11 @@
+# Direct Python dependencies of the public reproducibility package (Python 3.13).
+# requirements-lock.txt pins every transitive dependency with hashes:
+#   pip-compile --generate-hashes --allow-unsafe -o requirements-lock.txt requirements.in
+#   pip install --require-hashes -r requirements-lock.txt
+pandas==3.0.5          # calibration tool, benchmark aggregation, RBAC overhead
+numpy==2.5.3
+PyYAML==6.0.3          # configuration files
+cryptography==50.0.1   # gateway Ed25519 record signatures, crypto micro-benchmark
+matplotlib==3.10.0     # analytical figures (optional at runtime)
+jsonschema==4.25.1     # example data schemas (tests)
+pytest==8.3.4

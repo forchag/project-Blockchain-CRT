@@ -1,0 +1,9 @@
+# Illustrative data for testing code. Not original field evidence. Invented trials (EX- prefix, 2030 dates)
+# for analysis/raft_recovery.py; schema = benchmarks/run_failover.py recovery_trials.csv.
+trial_id,failure_type,affected_orderer,leader_before,leader_after,failure_command,failure_time,leader_election_completion_time,first_successful_tx_time,election_attempts,split_votes,recovery_duration_s,outcome,note,provenance
+EX-RT-01,abrupt_kill,osn0.orderer.bench,osn0.orderer.bench,osn1.orderer.bench,example,2030-01-15T01:00:00.000+00:00,2030-01-15T01:00:05.100+00:00,2030-01-15T01:00:05.600+00:00,1,0,5.600,recovered,invented example row,illustrative
+EX-RT-02,abrupt_kill,osn1.orderer.bench,osn1.orderer.bench,osn2.orderer.bench,example,2030-01-15T01:10:00.000+00:00,2030-01-15T01:10:07.400+00:00,2030-01-15T01:10:07.900+00:00,1,0,7.900,recovered,invented example row,illustrative
+EX-RT-03,abrupt_kill,osn2.orderer.bench,osn2.orderer.bench,osn0.orderer.bench,example,2030-01-15T01:20:00.000+00:00,2030-01-15T01:20:09.200+00:00,2030-01-15T01:20:09.800+00:00,1,0,9.800,recovered,invented example row,illustrative
+EX-RT-04,graceful_stop,osn0.orderer.bench,osn0.orderer.bench,osn1.orderer.bench,example,2030-01-15T01:30:00.000+00:00,2030-01-15T01:30:00.800+00:00,2030-01-15T01:30:01.300+00:00,1,0,1.300,recovered,invented example row,illustrative
+EX-RT-05,leader_partition,osn1.orderer.bench,osn1.orderer.bench,osn2.orderer.bench,example,2030-01-15T01:40:00.000+00:00,2030-01-15T01:40:06.000+00:00,2030-01-15T01:40:06.600+00:00,1,0,6.600,recovered,invented example row,illustrative
+EX-RT-06,abrupt_kill,osn2.orderer.bench,osn2.orderer.bench,osn0.orderer.bench,example,2030-01-15T01:50:00.000+00:00,,,0,0,,not_recovered,invented example row,illustrative

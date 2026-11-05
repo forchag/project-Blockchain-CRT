@@ -1,0 +1,68 @@
+{
+  "_README": "Expected outputs of analysis/reproduce_analytical_results.py, checked by analysis/validate_analytical_outputs.py. Self-authored from the formulas in docs/ANALYTICAL_REPRODUCIBILITY.md; manuscript values are given where the manuscript rounds them. Not original field evidence.",
+  "tolerance_default": 1e-6,
+  "expected": {
+    "crt.modulus_product":                      {"value": 1009091, "label": "analytical"},
+    "crt.legitimate_range":                     {"value": 9797, "label": "analytical"},
+    "crt.max_scaled_bound":                     {"value": 9796, "label": "analytical"},
+    "crt.worked_example_scaled":                {"value": 653, "label": "analytical"},
+    "crt.worked_example_residues":              {"value": [71, 47, 35], "label": "analytical"},
+    "crt.worked_example_all_pairs_reconstruct": {"value": true, "label": "analytical"},
+    "crt.independence_shared_residues_97_101":  {"value": true, "label": "analytical"},
+    "crt.independence_residue_103_differs":     {"value": true, "label": "analytical"},
+    "crt.exhaustive_pairs_reconstruct":         {"value": true, "label": "analytical"},
+    "crt.single_corruption_undetected":         {"value": 0, "label": "analytical"},
+    "crt.failure_one_residue":                  {"value": "INSUFFICIENT", "label": "analytical"},
+    "crt.failure_bad_residue":                  {"value": "BAD_RESIDUE", "label": "analytical"},
+
+    "airtime.residue_8B_ms":                    {"value": 123.904, "label": "analytical", "manuscript": "123.904 ms"},
+    "airtime.raw_34B_ms":                       {"value": 246.784, "label": "analytical", "manuscript": "246.8 ms"},
+    "airtime.fixed_point_13B_ms":               {"value": 164.864, "label": "analytical", "manuscript": "164.864 ms"},
+    "airtime.crt_reading_ms":                   {"value": 1858.56, "label": "analytical", "manuscript": "1,858.56 ms"},
+    "airtime.per_packet_reduction_pct":         {"value": 49.793, "tolerance": 0.001, "label": "derived (from analytical)", "manuscript": "49.8 %"},
+    "airtime.reading_ratio_crt_over_raw":       {"value": 7.5311, "tolerance": 0.0001, "label": "derived (from analytical)", "manuscript": "7.5x"},
+
+    "energy.bench_residue_8B_mj":               {"value": 12.32, "label": "bench-measured"},
+    "energy.bench_raw_34B_mj":                  {"value": 24.86, "label": "bench-measured"},
+    "energy.bench_fixed_13B_mj":                {"value": 16.36, "label": "bench-measured"},
+    "energy.bench_crt_reading_mj":              {"value": 184.8, "label": "bench-measured"},
+    "energy.bench_ratio_crt_over_raw":          {"value": 7.4336, "tolerance": 0.0001, "label": "derived (from bench-measured)", "manuscript": "~7.4x"},
+    "energy.analytical_ratio_crt_over_raw":     {"value": 7.5311, "tolerance": 0.0001, "label": "derived (from analytical)"},
+
+    "recovery.per_quantity_10pct":              {"value": 97.2, "tolerance": 0.0005, "label": "analytical", "manuscript": "97.2 %"},
+    "recovery.per_quantity_20pct":              {"value": 89.6, "tolerance": 0.0005, "label": "analytical", "manuscript": "89.6 %"},
+    "recovery.per_quantity_30pct":              {"value": 78.4, "tolerance": 0.0005, "label": "analytical", "manuscript": "78.4 %"},
+    "recovery.per_reading_10pct":               {"value": 86.8, "tolerance": 0.05, "label": "analytical", "manuscript": "86.8 %"},
+    "recovery.per_reading_20pct":               {"value": 57.7, "tolerance": 0.05, "label": "analytical", "manuscript": "57.7 %"},
+    "recovery.per_reading_30pct":               {"value": 29.6, "tolerance": 0.05, "label": "analytical", "manuscript": "29.6 %"},
+    "recovery.structured_single_channel_pct":   {"value": 100.0, "label": "analytical", "manuscript": "100 %"},
+
+    "capacity.stress_ceiling_crt_readings":     {"value": 96, "label": "analytical", "manuscript": "96 readings"},
+    "capacity.stress_ceiling_raw_readings":     {"value": 729, "label": "analytical", "manuscript": "729 readings"},
+    "capacity.downlink_ms_per_node_8B_poll":    {"value": 743.424, "label": "analytical"},
+    "capacity.downlink_node_ceiling_8B_poll":   {"value": 96, "label": "analytical", "manuscript": "96 nodes"},
+    "capacity.downlink_node_ceiling_10B_poll":  {"value": 94, "label": "analytical"},
+
+    "tci.crt_processing_per_reading_ms":        {"value": 6.0, "label": "derived (from analytical)"},
+
+    "economics.annuity_factor_8pct_5y":         {"value": 3.99271, "tolerance": 0.00001, "label": "derived (from public tariff assumptions)"},
+    "economics.payback_implied_by_reported_roi": {"value": 1.0101, "tolerance": 0.0001, "label": "derived (from field-measured + public tariff)", "manuscript": "1.01 yr"},
+
+    "raft.election_min_s":                      {"value": 4.5, "label": "analytical"},
+    "raft.election_max_s":                      {"value": 9.5, "label": "analytical"},
+    "raft.recovery_max_s":                      {"value": 10.0, "label": "analytical"},
+    "raft.bench_mean_recovery_s":               {"value": 8.2, "label": "bench-measured"},
+
+    "reported_check.rejected_share_pct":        {"value": 10.535, "tolerance": 0.001, "label": "derived (from field-measured)", "manuscript": "10.5 %"},
+    "reported_check.two_residue_share_pct":     {"value": 9.804, "tolerance": 0.001, "label": "derived (from field-measured)", "manuscript": "9.8 %"},
+    "reported_check.uptime_pct":                {"value": 99.365, "tolerance": 0.001, "label": "derived (from field-measured)", "manuscript": "99.365 %"},
+    "reported_check.access_control_overhead_pct": {"value": 26.412, "tolerance": 0.001, "label": "derived (from bench-measured)", "manuscript": "26.5 % (see note)"}
+  },
+  "labels_that_must_never_be_analytical": [
+    "energy.bench_residue_8B_mj", "energy.bench_raw_34B_mj", "energy.bench_fixed_13B_mj", "energy.bench_crt_reading_mj",
+    "raft.bench_mean_recovery_s", "reported.median_endorsement_latency_s", "reported.gateway_uptime_pct",
+    "reported.tomato_water_reduction_pct", "reported.pepper_water_reduction_pct", "reported.labour_reduction_pct",
+    "reported.throughput_enforcement_on_tps", "reported.throughput_enforcement_off_tps", "reported.two_residue_records",
+    "reported.ledger_record_bytes", "reported.adaptive_modes"
+  ]
+}

@@ -1,0 +1,16 @@
+# Illustrative data for testing code. Not original field evidence.
+# Invented throughput trials (schema of benchmarks/aggregate_trials.py) for benchmarks/rbac_overhead.py.
+# Not the manuscript's bench-measured campaign and not a run of the example network.
+trial_id,configuration,concurrency_level,repetition,duration_seconds,submitted,endorsed,committed,failed,throughput_tps,latency_mean_ms,latency_p50_ms,latency_p95_ms,latency_p99_ms,latency_sd_ms,start_timestamp,end_timestamp,session_id,host_id,exit_code,provenance
+EX-c010-baseline-r1,baseline,10,1,60,1206,1206,1206,0,20.10,501.0,499.0,531.0,546.0,10.0,2030-01-15T02:01:00Z,2030-01-15T02:01:59Z,example,example-host,0,illustrative
+EX-c010-hrbac-r1,hrbac,10,1,60,1086,1086,1086,0,18.10,561.0,559.0,591.0,606.0,10.0,2030-01-15T02:02:00Z,2030-01-15T02:02:59Z,example,example-host,0,illustrative
+EX-c010-baseline-r2,baseline,10,2,60,1212,1212,1212,0,20.20,502.0,500.0,532.0,547.0,10.0,2030-01-15T02:03:00Z,2030-01-15T02:03:59Z,example,example-host,0,illustrative
+EX-c010-hrbac-r2,hrbac,10,2,60,1092,1092,1092,0,18.20,562.0,560.0,592.0,607.0,10.0,2030-01-15T02:04:00Z,2030-01-15T02:04:59Z,example,example-host,0,illustrative
+EX-c010-baseline-r3,baseline,10,3,60,1218,1218,1218,0,20.30,503.0,501.0,533.0,548.0,10.0,2030-01-15T02:05:00Z,2030-01-15T02:05:59Z,example,example-host,0,illustrative
+EX-c010-hrbac-r3,hrbac,10,3,60,1098,1098,1098,0,18.30,563.0,561.0,593.0,608.0,10.0,2030-01-15T02:06:00Z,2030-01-15T02:06:59Z,example,example-host,0,illustrative
+EX-c020-baseline-r1,baseline,20,1,60,2406,2406,2406,0,40.10,501.0,499.0,531.0,546.0,10.0,2030-01-15T02:07:00Z,2030-01-15T02:07:59Z,example,example-host,0,illustrative
+EX-c020-hrbac-r1,hrbac,20,1,60,2166,2166,2166,0,36.10,561.0,559.0,591.0,606.0,10.0,2030-01-15T02:08:00Z,2030-01-15T02:08:59Z,example,example-host,0,illustrative
+EX-c020-baseline-r2,baseline,20,2,60,2412,2412,2412,0,40.20,502.0,500.0,532.0,547.0,10.0,2030-01-15T02:09:00Z,2030-01-15T02:09:59Z,example,example-host,0,illustrative
+EX-c020-hrbac-r2,hrbac,20,2,60,2172,2172,2172,0,36.20,562.0,560.0,592.0,607.0,10.0,2030-01-15T02:10:00Z,2030-01-15T02:10:59Z,example,example-host,0,illustrative
+EX-c020-baseline-r3,baseline,20,3,60,2418,2418,2418,0,40.30,503.0,501.0,533.0,548.0,10.0,2030-01-15T02:11:00Z,2030-01-15T02:11:59Z,example,example-host,0,illustrative
+EX-c020-hrbac-r3,hrbac,20,3,60,2178,2178,2178,0,36.30,563.0,561.0,593.0,608.0,10.0,2030-01-15T02:12:00Z,2030-01-15T02:12:59Z,example,example-host,0,illustrative

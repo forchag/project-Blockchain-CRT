@@ -1,0 +1,127 @@
+# Channel configuration of the self-contained EXAMPLE network (Hyperledger Fabric 2.5, single host,
+# docker compose). Derived from the source repository's benchmark network, moved from Fabric 3.0 to
+# the Fabric 2.5 line the field deployment ran. The field network's own genesis block and channel
+# configuration are not published (docs/DATA_AVAILABILITY.md).
+#
+# Consensus and batching follow the values the source repository records for the field channel
+# (etcdraft, 3 consenters, BatchTimeout 500 ms, MaxMessageCount 100). The manuscript explains the
+# ~27 min median field commit latency by block cutting under a 2 h timeout; that value is not in the
+# surviving configuration summary. Change BatchTimeout here to study it.
+#
+#   configtxgen -configPath . -profile BenchChannel -channelID benchchannel -outputBlock benchchannel.block
+
+Organizations:
+  - &OrdererOrg
+    Name: OrdererMSP
+    ID: OrdererMSP
+    MSPDir: crypto/ordererOrganizations/orderer.bench/msp
+    Policies:
+      Readers: {Type: Signature, Rule: "OR('OrdererMSP.member')"}
+      Writers: {Type: Signature, Rule: "OR('OrdererMSP.member')"}
+      Admins: {Type: Signature, Rule: "OR('OrdererMSP.admin')"}
+    OrdererEndpoints:
+      - osn0.orderer.bench:7050
+      - osn1.orderer.bench:8050
+      - osn2.orderer.bench:9050
+
+  - &North
+    Name: NorthMSP
+    ID: NorthMSP
+    MSPDir: crypto/peerOrganizations/north.bench/msp
+    Policies: &OrgPolicies
+      Readers: {Type: Signature, Rule: "OR('NorthMSP.admin', 'NorthMSP.peer', 'NorthMSP.client')"}
+      Writers: {Type: Signature, Rule: "OR('NorthMSP.admin', 'NorthMSP.client')"}
+      Admins: {Type: Signature, Rule: "OR('NorthMSP.admin')"}
+      Endorsement: {Type: Signature, Rule: "OR('NorthMSP.peer')"}
+    AnchorPeers: [{Host: peer0.north.bench, Port: 7051}]
+  - &South
+    Name: SouthMSP
+    ID: SouthMSP
+    MSPDir: crypto/peerOrganizations/south.bench/msp
+    Policies:
+      Readers: {Type: Signature, Rule: "OR('SouthMSP.admin', 'SouthMSP.peer', 'SouthMSP.client')"}
+      Writers: {Type: Signature, Rule: "OR('SouthMSP.admin', 'SouthMSP.client')"}
+      Admins: {Type: Signature, Rule: "OR('SouthMSP.admin')"}
+      Endorsement: {Type: Signature, Rule: "OR('SouthMSP.peer')"}
+    AnchorPeers: [{Host: peer0.south.bench, Port: 8051}]
+  - &East
+    Name: EastMSP
+    ID: EastMSP
+    MSPDir: crypto/peerOrganizations/east.bench/msp
+    Policies:
+      Readers: {Type: Signature, Rule: "OR('EastMSP.admin', 'EastMSP.peer', 'EastMSP.client')"}
+      Writers: {Type: Signature, Rule: "OR('EastMSP.admin', 'EastMSP.client')"}
+      Admins: {Type: Signature, Rule: "OR('EastMSP.admin')"}
+      Endorsement: {Type: Signature, Rule: "OR('EastMSP.peer')"}
+    AnchorPeers: [{Host: peer0.east.bench, Port: 9051}]
+  - &West
+    Name: WestMSP
+    ID: WestMSP
+    MSPDir: crypto/peerOrganizations/west.bench/msp
+    Policies:
+      Readers: {Type: Signature, Rule: "OR('WestMSP.admin', 'WestMSP.peer', 'WestMSP.client')"}
+      Writers: {Type: Signature, Rule: "OR('WestMSP.admin', 'WestMSP.client')"}
+      Admins: {Type: Signature, Rule: "OR('WestMSP.admin')"}
+      Endorsement: {Type: Signature, Rule: "OR('WestMSP.peer')"}
+    AnchorPeers: [{Host: peer0.west.bench, Port: 10051}]
+
+Capabilities:
+  Channel: &ChannelCapabilities {V2_0: true}      # Fabric 2.5 binaries; V3_0 needs Fabric 3.x
+  Orderer: &OrdererCapabilities {V2_0: true}
+  Application: &ApplicationCapabilities {V2_5: true}
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers: {Type: ImplicitMeta, Rule: "ANY Readers"}
+    Writers: {Type: ImplicitMeta, Rule: "ANY Writers"}
+    Admins: {Type: ImplicitMeta, Rule: "MAJORITY Admins"}
+    LifecycleEndorsement: {Type: ImplicitMeta, Rule: "MAJORITY Endorsement"}
+    Endorsement: {Type: ImplicitMeta, Rule: "MAJORITY Endorsement"}   # 3 of 4 orgs, as in the field network
+  Capabilities: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  # Orderer endpoints are declared per organisation (OrdererEndpoints), the form Fabric 2.x prefers.
+  EtcdRaft:
+    Consenters:
+      - {Host: osn0.orderer.bench, Port: 7050, ClientTLSCert: crypto/ordererOrganizations/orderer.bench/orderers/osn0.orderer.bench/tls/server.crt, ServerTLSCert: crypto/ordererOrganizations/orderer.bench/orderers/osn0.orderer.bench/tls/server.crt}
+      - {Host: osn1.orderer.bench, Port: 8050, ClientTLSCert: crypto/ordererOrganizations/orderer.bench/orderers/osn1.orderer.bench/tls/server.crt, ServerTLSCert: crypto/ordererOrganizations/orderer.bench/orderers/osn1.orderer.bench/tls/server.crt}
+      - {Host: osn2.orderer.bench, Port: 9050, ClientTLSCert: crypto/ordererOrganizations/orderer.bench/orderers/osn2.orderer.bench/tls/server.crt, ServerTLSCert: crypto/ordererOrganizations/orderer.bench/orderers/osn2.orderer.bench/tls/server.crt}
+    Options:
+      TickInterval: 500ms
+      ElectionTick: 10           # randomised election timeout 10-20 ticks = 5-10 s
+      HeartbeatTick: 1
+      MaxInflightBlocks: 5
+      SnapshotIntervalSize: 16 MB
+  BatchTimeout: 500ms            # value recorded for the field channel in the source repository; Fabric default 2s
+  BatchSize:
+    MaxMessageCount: 100
+    AbsoluteMaxBytes: 10 MB
+    PreferredMaxBytes: 2 MB
+  Organizations:
+  Policies:
+    Readers: {Type: ImplicitMeta, Rule: "ANY Readers"}
+    Writers: {Type: ImplicitMeta, Rule: "ANY Writers"}
+    Admins: {Type: ImplicitMeta, Rule: "MAJORITY Admins"}
+    BlockValidation: {Type: ImplicitMeta, Rule: "ANY Writers"}
+  Capabilities: *OrdererCapabilities
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers: {Type: ImplicitMeta, Rule: "ANY Readers"}
+    Writers: {Type: ImplicitMeta, Rule: "ANY Writers"}
+    Admins: {Type: ImplicitMeta, Rule: "MAJORITY Admins"}
+  Capabilities: *ChannelCapabilities
+
+Profiles:
+  BenchChannel:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations: [*OrdererOrg]
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations: [*North, *South, *East, *West]
+      Capabilities: *ApplicationCapabilities

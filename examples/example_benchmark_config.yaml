@@ -1,0 +1,45 @@
+# Quick benchmark configuration for a first run of the example network (about 3 minutes):
+#   WORKLOAD=examples/example_benchmark_config.yaml benchmarks/run_rbac_comparison.sh --campaign smoke
+# Same workload as benchmarks/workload.example.yaml with one concurrency level and one repetition.
+# Results describe the run that produced them (provenance example-network-run).
+_README: "Illustrative data for testing code. Not original field evidence. Quick smoke-test variant of benchmarks/workload.example.yaml."
+workload: writesensor-closed-loop
+network: blockchain/example-network (benchchannel, Fabric 2.5.16, Raft x3, 4 peers, MAJORITY endorsement)
+chaincode:
+  name: hrbac-cc
+  function: WriteSensor
+  args: [sensorID, readingID, residues, readingJSON]
+  payload_schema:            # readingJSON, ~130 bytes, synthetic uniform values (loadgen)
+    captured_at: RFC 3339 UTC string
+    soil_moisture: float, 20.0-80.0
+    temp_c: float, 15.0-35.0
+    humidity_pct: float, 35.0-85.0
+    ph: float, 6.10-7.20
+    light_lux: int, 0-45000
+  identity: bench-sns-001 (role=Sensor, zone=North; issued by network.sh identity)
+load_model:
+  type: closed-loop          # each worker keeps exactly one transaction in flight, zero think time
+  concurrency_levels: [10]
+  duration_s: 60             # measured window per trial
+  warmup_s: 10               # transactions started before the window are excluded
+  drain: transactions started inside the window are allowed to finish; they are counted
+  repetitions: 1
+  order: interleaved         # c010-baseline-r1, c010-hrbac-r1, c020-baseline-r1, ... then r2, ...
+  seed_base: 1               # worker w of repetition r uses seed r*1000 + w
+conditions:
+  baseline: {HRBAC_ENFORCE: "false"}
+  hrbac: {HRBAC_ENFORCE: "true"}
+timeout_policy:
+  per_transaction_s: 30      # endorse + submit + commit status
+  on_timeout: count as failed (status TIMEOUT); the worker continues
+  trial_abort_if_failed_fraction_gt: 0.05
+success_definition: commit status VALID received within the per-transaction timeout
+outputs:
+  root: results/benchmarks/<campaign>/
+  trial_dir: <campaign>/<condition>/c<NNN>-r<k>/   # transactions.csv, summary.json, resources.csv, trial.json
+  aggregate: results/benchmarks/<campaign>/throughput_runs.csv   # same schema as examples/example_benchmark_runs.csv
+resource_sampling:
+  source: cAdvisor REST API (http://localhost:8080/api/v1.3/docker/)
+  interval_s: 5
+  containers: [peer0.north.bench, peer0.south.bench, peer0.east.bench, peer0.west.bench,
+               osn0.orderer.bench, osn1.orderer.bench, osn2.orderer.bench, hrbac-cc]

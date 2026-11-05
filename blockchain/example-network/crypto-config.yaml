@@ -1,0 +1,35 @@
+# cryptogen input for the example network. Creates fresh, throw-away test certificates and keys
+# (ECDSA P-256, cryptogen 2.5 default) at setup time (network.sh up). Nothing here is reused from
+# the field network and no key material is committed (crypto/ is git-ignored).
+OrdererOrgs:
+  - Name: Orderer
+    Domain: orderer.bench
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: osn0
+        SANS: [localhost, 127.0.0.1]   # host-side osnadmin/peer CLI connect via mapped ports
+      - Hostname: osn1
+        SANS: [localhost, 127.0.0.1]   # host-side osnadmin/peer CLI connect via mapped ports
+      - Hostname: osn2
+        SANS: [localhost, 127.0.0.1]   # host-side osnadmin/peer CLI connect via mapped ports
+PeerOrgs:
+  - Name: North
+    Domain: north.bench
+    EnableNodeOUs: true
+    Template: {Count: 1, SANS: [localhost, 127.0.0.1]}
+    Users: {Count: 1}        # role-carrying client identities are issued by fabric-ca (network.sh identity / gateway-identity)
+  - Name: South
+    Domain: south.bench
+    EnableNodeOUs: true
+    Template: {Count: 1, SANS: [localhost, 127.0.0.1]}
+    Users: {Count: 1}
+  - Name: East
+    Domain: east.bench
+    EnableNodeOUs: true
+    Template: {Count: 1, SANS: [localhost, 127.0.0.1]}
+    Users: {Count: 1}
+  - Name: West
+    Domain: west.bench
+    EnableNodeOUs: true
+    Template: {Count: 1, SANS: [localhost, 127.0.0.1]}
+    Users: {Count: 1}

@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Build and run outputs (regenerated, never committed)
+build/
+results/
+*.tar.gz
+*.tgz
+*.zip
+
+# Firmware
+.pio/
+firmware/esp32/tests/test_protocol
+firmware/esp32/tests/test_protocol_15
+firmware/esp32/tests/test_protocol_3
+*.bin
+*.elf
+
+# Go binaries
+gateway/fabric-submitter/fabric-submitter
+benchmarks/loadgen/loadgen
+blockchain/chaincode/hrbac-cc/hrbac-cc
+
+# Example Fabric network: generated crypto, CA state, channel blocks, local secrets
+blockchain/example-network/.env
+blockchain/example-network/crypto/
+blockchain/example-network/fabric-ca/
+blockchain/example-network/*.block
+
+# Key material of any kind (the repository must never hold private keys)
+*.pem
+*.key
+*_sk
+*.p12
+*.pfx
+!**/*.example.pem
+
+# Reviewed, organized datasets are tracked; unreviewed/private materials are excluded.
+data/private/
+data/quarantine/
+data/temporary/

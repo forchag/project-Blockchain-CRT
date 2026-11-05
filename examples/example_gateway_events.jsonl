@@ -1,0 +1,21 @@
+{"_README": "Illustrative data for testing code. Not original field evidence. Replay script for gateway/mac (tests/test_gateway_mac.py::test_replay_example_events): invented node 2 / sequence 31 on gateway ex-gw-north; t_ms is relative, not wall-clock.", "gateway_id": "ex-gw-north", "node_id": 2, "seq": 31, "values": {"soil_moisture": 33.0, "temperature": 29.1, "humidity": 40.2, "ph": 7.1, "illuminance": 22000.0}}
+{"t_ms": 1000, "kind": "uplink", "quantity": "soil_moisture", "residue_index": 0, "retx": false, "frame_hex": "1102001f0427e2a4"}
+{"t_ms": 1150, "kind": "uplink", "quantity": "soil_moisture", "residue_index": 1, "retx": false, "frame_hex": "1102001f0c1b9cd2"}
+{"t_ms": 1300, "kind": "uplink", "quantity": "soil_moisture", "residue_index": 2, "retx": false, "frame_hex": "1102001f1415f7c6"}
+{"t_ms": 1450, "kind": "uplink", "quantity": "temperature", "residue_index": 0, "retx": false, "frame_hex": "1102001f240c714b"}
+{"t_ms": 1600, "kind": "uplink", "quantity": "temperature", "residue_index": 1, "retx": false, "frame_hex": "1102001f2c55333e"}
+{"t_ms": 1750, "kind": "uplink", "quantity": "temperature", "residue_index": 2, "retx": false, "frame_hex": "1102001f34496a59"}
+{"t_ms": 1900, "kind": "uplink", "quantity": "humidity", "residue_index": 0, "retx": false, "frame_hex": "1102001f440e5a23"}
+{"t_ms": 2050, "kind": "uplink", "quantity": "humidity", "residue_index": 2, "retx": false, "frame_hex": "1102001f545d33c6"}
+{"t_ms": 4200, "kind": "timer"}
+{"t_ms": 4400, "kind": "uplink", "quantity": "ph", "residue_index": 0, "retx": false, "frame_hex": "1102001f641f5ed5"}
+{"t_ms": 6550, "kind": "timer"}
+{"t_ms": 6750, "kind": "uplink", "quantity": "ph", "residue_index": 1, "retx": true, "frame_hex": "1102001f6d0337f0"}
+{"t_ms": 6900, "kind": "uplink", "quantity": "ph", "residue_index": 2, "retx": true, "frame_hex": "1102001f755c1630"}
+{"t_ms": 7050, "kind": "uplink", "quantity": "illuminance", "residue_index": 0, "retx": false, "frame_hex": "1102001f8423b9b8"}
+{"t_ms": 7200, "kind": "uplink", "quantity": "illuminance", "residue_index": 1, "retx": false, "frame_hex": "1102001f8c3ab309"}
+{"t_ms": 7350, "kind": "uplink", "quantity": "illuminance", "residue_index": 2, "retx": false, "frame_hex": "1102001f944a4744"}
+{"t_ms": 7500, "kind": "uplink", "quantity": "illuminance", "residue_index": 0, "retx": true, "frame_hex": "1102001f85238a89"}
+{"t_ms": 7650, "kind": "uplink", "quantity": "illuminance", "residue_index": 1, "retx": true, "frame_hex": "1102001f8d39b05b"}
+{"t_ms": 7800, "kind": "uplink", "quantity": "illuminance", "residue_index": 2, "retx": true, "frame_hex": "1102001f954a7475"}
+{"t_ms": 7950, "kind": "uplink", "quantity": "illuminance", "residue_index": 2, "retx": true, "frame_hex": "1102001f954a7475"}

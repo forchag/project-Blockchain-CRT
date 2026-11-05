@@ -1,0 +1,30 @@
+[project]
+name = "crt-multichannel-residue-reproducibility"
+version = "1.0.0"
+description = "Public software and analytical reproducibility package for CRT-based multi-channel residue transmission with gateway-side demodulation and Hyperledger Fabric 2.5 (field and bench data not included)"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.13"
+# Exact, hash-pinned versions of every transitive dependency: requirements-lock.txt
+#   pip install --require-hashes -r requirements-lock.txt
+dependencies = [
+    "pandas==3.0.5",
+    "numpy==2.5.3",
+    "PyYAML==6.0.3",
+    "cryptography==50.0.1",
+    "matplotlib==3.10.0",
+]
+
+[project.optional-dependencies]
+test = ["pytest==8.3.4", "jsonschema==4.25.1"]
+
+[tool.setuptools]
+packages = ["gateway", "gateway.mac", "analysis"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 130
+target-version = "py313"

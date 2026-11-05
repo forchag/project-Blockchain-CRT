@@ -1,0 +1,296 @@
+# EXAMPLE network (Hyperledger Fabric 2.5.16): 3 Raft orderers, 4 peers (one per org), hrbac-cc as
+# a chaincode service, Fabric CA for example client identities, cAdvisor for resource metrics.
+# Single host. Not the field deployment; every certificate and key is generated at `network.sh up`.
+#
+#   cp .env.example .env && ./pin_images.sh     # fills the *_DIGEST variables
+#   ./network.sh up && ./network.sh channel && ./network.sh deploy
+#
+# Images are pinned by tag and, after pin_images.sh, by digest (image:tag@sha256:...).
+# Credentials come only from .env (template: .env.example); none are committed.
+name: agri-bench
+
+x-peer-env: &peer-env
+  FABRIC_CFG_PATH: /etc/hyperledger/fabric
+  CORE_PEER_TLS_ENABLED: "true"
+  CORE_PEER_TLS_CERT_FILE: /etc/hyperledger/peer/tls/server.crt
+  CORE_PEER_TLS_KEY_FILE: /etc/hyperledger/peer/tls/server.key
+  CORE_PEER_TLS_ROOTCERT_FILE: /etc/hyperledger/peer/tls/ca.crt
+  CORE_PEER_MSPCONFIGPATH: /etc/hyperledger/peer/msp
+  CORE_LEDGER_STATE_STATEDATABASE: goleveldb
+  FABRIC_LOGGING_SPEC: INFO
+  TZ: UTC
+
+x-orderer-env: &orderer-env
+  FABRIC_CFG_PATH: /etc/hyperledger/fabric
+  ORDERER_GENERAL_LISTENADDRESS: 0.0.0.0
+  ORDERER_GENERAL_LOCALMSPID: OrdererMSP
+  ORDERER_GENERAL_LOCALMSPDIR: /etc/hyperledger/orderer/msp
+  ORDERER_GENERAL_TLS_ENABLED: "true"
+  ORDERER_GENERAL_TLS_PRIVATEKEY: /etc/hyperledger/orderer/tls/server.key
+  ORDERER_GENERAL_TLS_CERTIFICATE: /etc/hyperledger/orderer/tls/server.crt
+  ORDERER_GENERAL_TLS_ROOTCAS: "[/etc/hyperledger/orderer/tls/ca.crt]"
+  ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE: /etc/hyperledger/orderer/tls/server.crt
+  ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY: /etc/hyperledger/orderer/tls/server.key
+  ORDERER_GENERAL_BOOTSTRAPMETHOD: none
+  ORDERER_CHANNELPARTICIPATION_ENABLED: "true"
+  ORDERER_ADMIN_TLS_ENABLED: "true"
+  ORDERER_ADMIN_TLS_CERTIFICATE: /etc/hyperledger/orderer/tls/server.crt
+  ORDERER_ADMIN_TLS_PRIVATEKEY: /etc/hyperledger/orderer/tls/server.key
+  ORDERER_ADMIN_TLS_ROOTCAS: "[/etc/hyperledger/orderer/tls/ca.crt]"
+  ORDERER_ADMIN_TLS_CLIENTROOTCAS: "[/etc/hyperledger/orderer/tls/ca.crt]"
+  FABRIC_LOGGING_SPEC: INFO
+  TZ: UTC
+
+x-health: &health
+  interval: 5s
+  timeout: 3s
+  retries: 24
+  start_period: 10s
+
+networks:
+  bench:
+    name: agri-bench
+    driver: bridge
+
+volumes:
+  osn0-data:
+  osn1-data:
+  osn2-data:
+  peer0-north-data:
+  peer0-south-data:
+  peer0-east-data:
+  peer0-west-data:
+
+services:
+  osn0.orderer.bench:
+    image: hyperledger/fabric-orderer:2.5.16${FABRIC_ORDERER_DIGEST:-}
+    container_name: osn0.orderer.bench
+    environment:
+      <<: *orderer-env
+      ORDERER_GENERAL_LISTENPORT: "7050"
+      ORDERER_ADMIN_LISTENADDRESS: 0.0.0.0:7053
+      ORDERER_OPERATIONS_LISTENADDRESS: 0.0.0.0:9450
+    volumes:
+      - ./orderer.yaml:/etc/hyperledger/fabric/orderer.yaml:ro
+      - ./crypto/ordererOrganizations/orderer.bench/orderers/osn0.orderer.bench/msp:/etc/hyperledger/orderer/msp:ro
+      - ./crypto/ordererOrganizations/orderer.bench/orderers/osn0.orderer.bench/tls:/etc/hyperledger/orderer/tls:ro
+      - osn0-data:/var/hyperledger/production/orderer
+    ports: ["7050:7050", "7053:7053", "9450:9450"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9450 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  osn1.orderer.bench:
+    image: hyperledger/fabric-orderer:2.5.16${FABRIC_ORDERER_DIGEST:-}
+    container_name: osn1.orderer.bench
+    environment:
+      <<: *orderer-env
+      ORDERER_GENERAL_LISTENPORT: "8050"
+      ORDERER_ADMIN_LISTENADDRESS: 0.0.0.0:8053
+      ORDERER_OPERATIONS_LISTENADDRESS: 0.0.0.0:9451
+    volumes:
+      - ./orderer.yaml:/etc/hyperledger/fabric/orderer.yaml:ro
+      - ./crypto/ordererOrganizations/orderer.bench/orderers/osn1.orderer.bench/msp:/etc/hyperledger/orderer/msp:ro
+      - ./crypto/ordererOrganizations/orderer.bench/orderers/osn1.orderer.bench/tls:/etc/hyperledger/orderer/tls:ro
+      - osn1-data:/var/hyperledger/production/orderer
+    ports: ["8050:8050", "8053:8053", "9451:9451"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9451 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  osn2.orderer.bench:
+    image: hyperledger/fabric-orderer:2.5.16${FABRIC_ORDERER_DIGEST:-}
+    container_name: osn2.orderer.bench
+    environment:
+      <<: *orderer-env
+      ORDERER_GENERAL_LISTENPORT: "9050"
+      ORDERER_ADMIN_LISTENADDRESS: 0.0.0.0:9053
+      ORDERER_OPERATIONS_LISTENADDRESS: 0.0.0.0:9452
+    volumes:
+      - ./orderer.yaml:/etc/hyperledger/fabric/orderer.yaml:ro
+      - ./crypto/ordererOrganizations/orderer.bench/orderers/osn2.orderer.bench/msp:/etc/hyperledger/orderer/msp:ro
+      - ./crypto/ordererOrganizations/orderer.bench/orderers/osn2.orderer.bench/tls:/etc/hyperledger/orderer/tls:ro
+      - osn2-data:/var/hyperledger/production/orderer
+    ports: ["9050:9050", "9053:9053", "9452:9452"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9452 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  peer0.north.bench:
+    image: hyperledger/fabric-peer:2.5.16${FABRIC_PEER_DIGEST:-}
+    container_name: peer0.north.bench
+    environment:
+      <<: *peer-env
+      CORE_PEER_ID: peer0.north.bench
+      CORE_PEER_ADDRESS: peer0.north.bench:7051
+      CORE_PEER_LISTENADDRESS: 0.0.0.0:7051
+      CORE_PEER_CHAINCODEADDRESS: peer0.north.bench:7052
+      CORE_PEER_CHAINCODELISTENADDRESS: 0.0.0.0:7052
+      CORE_PEER_GOSSIP_BOOTSTRAP: peer0.north.bench:7051
+      CORE_PEER_GOSSIP_EXTERNALENDPOINT: peer0.north.bench:7051
+      CORE_PEER_LOCALMSPID: NorthMSP
+      CORE_OPERATIONS_LISTENADDRESS: 0.0.0.0:9444
+    volumes:
+      - ./core.yaml:/etc/hyperledger/fabric/core.yaml:ro
+      - ./crypto/peerOrganizations/north.bench/peers/peer0.north.bench/msp:/etc/hyperledger/peer/msp:ro
+      - ./crypto/peerOrganizations/north.bench/peers/peer0.north.bench/tls:/etc/hyperledger/peer/tls:ro
+      - peer0-north-data:/var/hyperledger/production
+    ports: ["7051:7051", "9444:9444"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    depends_on:
+      osn0.orderer.bench: {condition: service_healthy}
+      osn1.orderer.bench: {condition: service_healthy}
+      osn2.orderer.bench: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9444 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  peer0.south.bench:
+    image: hyperledger/fabric-peer:2.5.16${FABRIC_PEER_DIGEST:-}
+    container_name: peer0.south.bench
+    environment:
+      <<: *peer-env
+      CORE_PEER_ID: peer0.south.bench
+      CORE_PEER_ADDRESS: peer0.south.bench:8051
+      CORE_PEER_LISTENADDRESS: 0.0.0.0:8051
+      CORE_PEER_CHAINCODEADDRESS: peer0.south.bench:8052
+      CORE_PEER_CHAINCODELISTENADDRESS: 0.0.0.0:8052
+      CORE_PEER_GOSSIP_BOOTSTRAP: peer0.south.bench:8051
+      CORE_PEER_GOSSIP_EXTERNALENDPOINT: peer0.south.bench:8051
+      CORE_PEER_LOCALMSPID: SouthMSP
+      CORE_OPERATIONS_LISTENADDRESS: 0.0.0.0:9445
+    volumes:
+      - ./core.yaml:/etc/hyperledger/fabric/core.yaml:ro
+      - ./crypto/peerOrganizations/south.bench/peers/peer0.south.bench/msp:/etc/hyperledger/peer/msp:ro
+      - ./crypto/peerOrganizations/south.bench/peers/peer0.south.bench/tls:/etc/hyperledger/peer/tls:ro
+      - peer0-south-data:/var/hyperledger/production
+    ports: ["8051:8051", "9445:9445"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    depends_on:
+      osn0.orderer.bench: {condition: service_healthy}
+      osn1.orderer.bench: {condition: service_healthy}
+      osn2.orderer.bench: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9445 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  peer0.east.bench:
+    image: hyperledger/fabric-peer:2.5.16${FABRIC_PEER_DIGEST:-}
+    container_name: peer0.east.bench
+    environment:
+      <<: *peer-env
+      CORE_PEER_ID: peer0.east.bench
+      CORE_PEER_ADDRESS: peer0.east.bench:9051
+      CORE_PEER_LISTENADDRESS: 0.0.0.0:9051
+      CORE_PEER_CHAINCODEADDRESS: peer0.east.bench:9052
+      CORE_PEER_CHAINCODELISTENADDRESS: 0.0.0.0:9052
+      CORE_PEER_GOSSIP_BOOTSTRAP: peer0.east.bench:9051
+      CORE_PEER_GOSSIP_EXTERNALENDPOINT: peer0.east.bench:9051
+      CORE_PEER_LOCALMSPID: EastMSP
+      CORE_OPERATIONS_LISTENADDRESS: 0.0.0.0:9446
+    volumes:
+      - ./core.yaml:/etc/hyperledger/fabric/core.yaml:ro
+      - ./crypto/peerOrganizations/east.bench/peers/peer0.east.bench/msp:/etc/hyperledger/peer/msp:ro
+      - ./crypto/peerOrganizations/east.bench/peers/peer0.east.bench/tls:/etc/hyperledger/peer/tls:ro
+      - peer0-east-data:/var/hyperledger/production
+    ports: ["9051:9051", "9446:9446"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    depends_on:
+      osn0.orderer.bench: {condition: service_healthy}
+      osn1.orderer.bench: {condition: service_healthy}
+      osn2.orderer.bench: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9446 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  peer0.west.bench:
+    image: hyperledger/fabric-peer:2.5.16${FABRIC_PEER_DIGEST:-}
+    container_name: peer0.west.bench
+    environment:
+      <<: *peer-env
+      CORE_PEER_ID: peer0.west.bench
+      CORE_PEER_ADDRESS: peer0.west.bench:10051
+      CORE_PEER_LISTENADDRESS: 0.0.0.0:10051
+      CORE_PEER_CHAINCODEADDRESS: peer0.west.bench:10052
+      CORE_PEER_CHAINCODELISTENADDRESS: 0.0.0.0:10052
+      CORE_PEER_GOSSIP_BOOTSTRAP: peer0.west.bench:10051
+      CORE_PEER_GOSSIP_EXTERNALENDPOINT: peer0.west.bench:10051
+      CORE_PEER_LOCALMSPID: WestMSP
+      CORE_OPERATIONS_LISTENADDRESS: 0.0.0.0:9447
+    volumes:
+      - ./core.yaml:/etc/hyperledger/fabric/core.yaml:ro
+      - ./crypto/peerOrganizations/west.bench/peers/peer0.west.bench/msp:/etc/hyperledger/peer/msp:ro
+      - ./crypto/peerOrganizations/west.bench/peers/peer0.west.bench/tls:/etc/hyperledger/peer/tls:ro
+      - peer0-west-data:/var/hyperledger/production
+    ports: ["10051:10051", "9447:9447"]
+    cpus: 2.0
+    mem_limit: 2g
+    networks: [bench]
+    depends_on:
+      osn0.orderer.bench: {condition: service_healthy}
+      osn1.orderer.bench: {condition: service_healthy}
+      osn2.orderer.bench: {condition: service_healthy}
+    healthcheck:
+      <<: *health
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/9447 && printf 'GET /healthz HTTP/1.0\\r\\n\\r\\n' >&3 && grep -q '\"OK\"' <&3"]
+
+  hrbac-cc:
+    # One chaincode server serves all four peers (ccaas). HRBAC_ENFORCE is the ONLY
+    # difference between the RBAC-on and RBAC-off benchmark conditions.
+    build: ../chaincode/hrbac-cc
+    image: agri/hrbac-cc:1.0
+    container_name: hrbac-cc
+    environment:
+      CHAINCODE_SERVER_ADDRESS: 0.0.0.0:9999
+      CHAINCODE_ID: ${CHAINCODE_ID:-}   # set by network.sh deploy; the server refuses to start without it
+      CHAINCODE_TLS_DISABLED: "true"
+      HRBAC_ENFORCE: ${HRBAC_ENFORCE:-true}
+    cpus: 2.0
+    mem_limit: 1g
+    networks: [bench]
+
+  ca.north.bench:
+    # Issues example client identities with role/zone attributes, signing with the
+    # cryptogen-created NorthMSP CA so they validate against the channel MSP.
+    image: hyperledger/fabric-ca:1.5.13${FABRIC_CA_DIGEST:-}
+    container_name: ca.north.bench
+    environment:
+      FABRIC_CA_SERVER_CA_NAME: ca-north
+      FABRIC_CA_SERVER_TLS_ENABLED: "true"
+      FABRIC_CA_SERVER_PORT: "7054"
+      FABRIC_CA_SERVER_CA_CERTFILE: /etc/hyperledger/ca/ca.north.bench-cert.pem
+      FABRIC_CA_SERVER_CA_KEYFILE: /etc/hyperledger/ca/priv_sk
+    command: sh -c 'fabric-ca-server start -b admin:${CA_ADMIN_PASSWORD:?set CA_ADMIN_PASSWORD in .env}'
+    volumes:
+      - ./crypto/peerOrganizations/north.bench/ca:/etc/hyperledger/ca:ro
+      - ./fabric-ca/north:/etc/hyperledger/fabric-ca-server
+    ports: ["7054:7054"]
+    networks: [bench]
+
+  cadvisor:
+    # Per-container CPU, memory, disk and network counters -> benchmark_resource_metrics.csv
+    image: gcr.io/cadvisor/cadvisor:v0.49.1${CADVISOR_DIGEST:-}
+    container_name: cadvisor
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports: ["8080:8080"]
+    networks: [bench]

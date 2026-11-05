@@ -1,0 +1,38 @@
+# ILLUSTRATIVE deployment roster. Illustrative data for testing code. Not original field evidence.
+#
+# Invented for the public reproducibility package: 12 nodes, three per zone, with "ex-" identifiers
+# that do not correspond to any deployed device. The field deployment's installed-device inventory
+# is not published (docs/DATA_AVAILABILITY.md). Replace this file with your own roster to run the
+# gateway against real hardware; zone windows must tile config/radio.example.yaml schedule.cycle_s.
+_README: "Illustrative data for testing code. Not original field evidence."
+provenance: illustrative
+
+zones:
+  North:
+    zone_index: 0
+    gateway_id: ex-gw-north
+    nodes:
+      - {node_id: 1, sensor_id: ex-sns-001, device_id: ex-node-001, position: 0}
+      - {node_id: 2, sensor_id: ex-sns-002, device_id: ex-node-002, position: 1}
+      - {node_id: 3, sensor_id: ex-sns-003, device_id: ex-node-003, position: 2}
+  South:
+    zone_index: 1
+    gateway_id: ex-gw-south
+    nodes:
+      - {node_id: 4, sensor_id: ex-sns-004, device_id: ex-node-004, position: 0}
+      - {node_id: 5, sensor_id: ex-sns-005, device_id: ex-node-005, position: 1}
+      - {node_id: 6, sensor_id: ex-sns-006, device_id: ex-node-006, position: 2}
+  East:
+    zone_index: 2
+    gateway_id: ex-gw-east
+    nodes:
+      - {node_id: 7, sensor_id: ex-sns-007, device_id: ex-node-007, position: 0}
+      - {node_id: 8, sensor_id: ex-sns-008, device_id: ex-node-008, position: 1}
+      - {node_id: 9, sensor_id: ex-sns-009, device_id: ex-node-009, position: 2}
+  West:
+    zone_index: 3
+    gateway_id: ex-gw-west
+    nodes:
+      - {node_id: 10, sensor_id: ex-sns-010, device_id: ex-node-010, position: 0}
+      - {node_id: 11, sensor_id: ex-sns-011, device_id: ex-node-011, position: 1}
+      - {node_id: 12, sensor_id: ex-sns-012, device_id: ex-node-012, position: 2}

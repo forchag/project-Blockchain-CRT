@@ -1,0 +1,37 @@
+# Headline values AS REPORTED IN THE MANUSCRIPT whose provenance is bench-measured, field-measured
+# or measured. Transcribed for traceability only.
+#
+# None of these is reproducible from the public branch. reproduce_analytical_results.py prints them
+# under "reported, not reproduced", with their label, and checks only the arithmetic that links
+# published numbers to each other (e.g. 15,414 / 146,311 = 10.5 %). A consistent ratio says the
+# published numbers agree with each other; it says nothing about whether the counts were observed.
+_README: "Transcribed manuscript values. Not original field evidence, not raw data, not reproducible here."
+
+bench_measured:
+  compute_saturation_packets_per_60s: {value: 600, unit: "residue packets / 60 s", basis: "synthetic load test on the deployed RPi 4B cluster"}
+  throughput_enforcement_on_tps: {value: 40.4, max: 42.5, unit: TPS, basis: "closed-loop load test, 4 Oct 2025, deployed 4-peer network"}
+  throughput_enforcement_off_tps: {value: 54.9, unit: TPS, basis: "same conditions, no-enforcement baseline"}
+  smart_contract_execution_ms: {value: 321.5, unit: ms, basis: "controlled benchmark"}
+  raft_leader_recovery_s: {value: 8.2, sd: 2.1, n: 20, unit: s, basis: "sudden-shutdown trials on the deployed orderer"}
+
+field_measured:
+  median_endorsement_latency_s: {value: 1.22, unit: s, basis: "join of device/gateway/peer logs on txid, 130,897 committed records"}
+  median_commit_latency_min: {value: 27, approx: true, unit: min, basis: "same logs; 100-tx block cutting under a 2 h timeout (manuscript)"}
+  gateway_uptime_pct: {value: 99.4, precise: 99.365, unit: "%", basis: "9.3 h outage over 1,464 h"}
+  outage_hours: {value: 9.3, unit: h}
+  deployment_hours: {value: 1464, unit: h}
+  attempts_total: {value: 146311, unit: "write attempts", basis: "access-control audit logs"}
+  attempts_rejected: {value: 15414, unit: "write attempts"}
+  committed_records: {value: 130897, unit: records}
+  two_residue_records: {value: 12833, unit: records, basis: "committed-record summary; unit (one quantity vs all five) not established"}
+  deployment_days: {value: 61, unit: days}
+  tomato_water_reduction_pct: {value: 40.4, unit: "%", basis: "scheduled application volumes, 3 replicate plots per arm"}
+  pepper_water_reduction_pct: {value: 34.6, unit: "%"}
+  labour_reduction_pct: {value: 33.9, unit: "%", basis: "time-motion records, 2.4 ha treated area"}
+  tomato_yield_change_pct: {value: 2.2, p_value: 0.496, unit: "%", basis: "RCBD, 3 reps, 2 error df"}
+  pepper_yield_change_pct: {value: 3.3, p_value: 0.571, unit: "%"}
+  adaptive_modes: {value: null, unit: "", basis: "manuscript Table 11; deployment summaries; not implemented in the reference firmware"}
+
+measured:
+  hardware_optimisation_table10: {value: null, unit: "", basis: "manuscript Table 10 (35 % faster, 28 % reduced latency, ...); derivation not in surviving records"}
+  ledger_record_bytes: {value: 439, unit: B, basis: "estimated; endorsement and proposal components marked unverified"}

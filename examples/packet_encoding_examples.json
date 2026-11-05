@@ -1,0 +1,188 @@
+{
+  "_README": "Illustrative data for testing code. Not original field evidence. Frames encode the invented reading EX-R001 for node 17, sequence 470 (both invented).",
+  "protocol_version": 1,
+  "reading": {
+    "soil_moisture": 41.4,
+    "temperature": 25.3,
+    "humidity": 64.3,
+    "ph": 6.82,
+    "illuminance": 1500.0
+  },
+  "scaled": {
+    "soil_moisture": 414,
+    "temperature": 653,
+    "humidity": 643,
+    "ph": 682,
+    "illuminance": 300
+  },
+  "frame_mode_15": {
+    "frames_per_reading": 15,
+    "frame_bytes": 8,
+    "frames": [
+      {
+        "quantity": "soil_moisture",
+        "residue_index": 0,
+        "channel_hz": 868100000,
+        "modulus": 97,
+        "residue": 26,
+        "hex": "111101d6041a2100"
+      },
+      {
+        "quantity": "soil_moisture",
+        "residue_index": 1,
+        "channel_hz": 868300000,
+        "modulus": 101,
+        "residue": 10,
+        "hex": "111101d60c0aba98"
+      },
+      {
+        "quantity": "soil_moisture",
+        "residue_index": 2,
+        "channel_hz": 868500000,
+        "modulus": 103,
+        "residue": 2,
+        "hex": "111101d61402b14a"
+      },
+      {
+        "quantity": "temperature",
+        "residue_index": 0,
+        "channel_hz": 868100000,
+        "modulus": 97,
+        "residue": 71,
+        "hex": "111101d62447acbe"
+      },
+      {
+        "quantity": "temperature",
+        "residue_index": 1,
+        "channel_hz": 868300000,
+        "modulus": 101,
+        "residue": 47,
+        "hex": "111101d62c2fc8b9"
+      },
+      {
+        "quantity": "temperature",
+        "residue_index": 2,
+        "channel_hz": 868500000,
+        "modulus": 103,
+        "residue": 35,
+        "hex": "111101d6342383ef"
+      },
+      {
+        "quantity": "humidity",
+        "residue_index": 0,
+        "channel_hz": 868100000,
+        "modulus": 97,
+        "residue": 61,
+        "hex": "111101d6443d7849"
+      },
+      {
+        "quantity": "humidity",
+        "residue_index": 1,
+        "channel_hz": 868300000,
+        "modulus": 101,
+        "residue": 37,
+        "hex": "111101d64c2562d9"
+      },
+      {
+        "quantity": "humidity",
+        "residue_index": 2,
+        "channel_hz": 868500000,
+        "modulus": 103,
+        "residue": 25,
+        "hex": "111101d654191fdc"
+      },
+      {
+        "quantity": "ph",
+        "residue_index": 0,
+        "channel_hz": 868100000,
+        "modulus": 97,
+        "residue": 3,
+        "hex": "111101d66403a932"
+      },
+      {
+        "quantity": "ph",
+        "residue_index": 1,
+        "channel_hz": 868300000,
+        "modulus": 101,
+        "residue": 76,
+        "hex": "111101d66c4c99b0"
+      },
+      {
+        "quantity": "ph",
+        "residue_index": 2,
+        "channel_hz": 868500000,
+        "modulus": 103,
+        "residue": 64,
+        "hex": "111101d67440d2e6"
+      },
+      {
+        "quantity": "illuminance",
+        "residue_index": 0,
+        "channel_hz": 868100000,
+        "modulus": 97,
+        "residue": 9,
+        "hex": "111101d6840918ca"
+      },
+      {
+        "quantity": "illuminance",
+        "residue_index": 1,
+        "channel_hz": 868300000,
+        "modulus": 101,
+        "residue": 98,
+        "hex": "111101d68c624cae"
+      },
+      {
+        "quantity": "illuminance",
+        "residue_index": 2,
+        "channel_hz": 868500000,
+        "modulus": 103,
+        "residue": 94,
+        "hex": "111101d6945e31ab"
+      }
+    ]
+  },
+  "frame_mode_3": {
+    "frames_per_reading": 3,
+    "frame_bytes": 12,
+    "frames": [
+      {
+        "channel_index": 0,
+        "hex": "411101d6001a473d0309dde8"
+      },
+      {
+        "channel_index": 1,
+        "hex": "411101d6400a2f254c62454e"
+      },
+      {
+        "channel_index": 2,
+        "hex": "411101d680022319405eb417"
+      }
+    ]
+  },
+  "poll": {
+    "node_id": 17,
+    "poll_id": 258,
+    "gateway_time": 1894665600,
+    "hex": "2111010270ee4d8090e1",
+    "frame_bytes": 10
+  },
+  "acks": [
+    {
+      "meaning": "temperature reconstructed from all three residues",
+      "hex": "311101d63700f7b5"
+    },
+    {
+      "meaning": "pH: only residue 0 received, retransmit residues 1 and 2",
+      "hex": "311101d66901ca24"
+    },
+    {
+      "meaning": "FRAME_MODE 3 whole-reading ACK, reconstructed",
+      "hex": "311101d6f700e1e1"
+    }
+  ],
+  "airtime_ms": {
+    "residue_8B": 123.904,
+    "channel_12B": 144.38400000000001,
+    "poll_10B": 144.38400000000001
+  }
+}

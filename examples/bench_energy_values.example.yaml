@@ -1,0 +1,18 @@
+# Bench-measured radio energy figures AS REPORTED IN THE MANUSCRIPT, transcribed for traceability.
+#
+# label: bench-measured. Illustrative of the bench, not of the field: INA219 at 2 kHz, 150
+# transmissions per frame type, controlled lab hardware. These numbers are NOT reproducible from
+# public inputs; the public branch reproduces the calculation pipeline (energy = power x airtime)
+# and prints these values beside the analytical ones, never in place of them. The raw INA219 traces
+# are not published. Delete this file and analysis/energy_reconciliation.py reports
+# "historical bench value not included" instead.
+_README: "Bench-measured values transcribed from the manuscript. Not original field evidence. Not reproducible from public inputs."
+label: bench-measured
+measurement: "INA219 current/voltage monitor, 2 kHz sampling, 150 transmissions per frame type, radio rail only"
+boundary: "radio-only energy per transmitted frame; excludes MCU, sensing, receive windows and sleep"
+per_packet_mj:
+  residue_8B: 12.32
+  raw_34B: 24.86
+  fixed_point_13B: 16.36
+per_reading_mj:
+  crt_15_packets: 184.8    # 15 x 12.32 (bench); the manuscript lists it as bench-measured

@@ -1,0 +1,40 @@
+# Prevent secrets and unsafe binary exports from entering the public reproducibility repository.
+name: public-safety
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  safety:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install --require-hashes -r requirements-lock.txt
+      - name: Verify imported dataset hashes
+        run: python scripts/verify_imported_data.py
+      - name: Public-data safety tests
+        run: python -m pytest -q tests/test_public_data_safety.py
+      - name: No private keys or certificates in tracked files
+        run: |
+          if git grep -I -l -E -e '-----BEGIN ([A-Z0-9]+ )?(PRIVATE KEY|CERTIFICATE)-----' -- . ':!tests/test_public_data_safety.py'; then
+            echo "Private key or certificate material tracked"; exit 1
+          fi
+          if git ls-files | grep -E '(^|/)\.env$|_sk$|\.pem$|\.key$|\.p12$|\.pfx$|\.block$'; then
+            echo "Secret or binary ledger material tracked"; exit 1
+          fi
+      - name: No binary archives accidentally committed
+        run: |
+          if git ls-files | grep -E '\.(bin|elf|tar|gz|tgz|zip|db|sqlite|parquet|xlsx)$'; then
+            echo "A binary or archive was tracked"; exit 1
+          fi

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/public-reproducibility/schemas/example_sensor_reading.schema.json",
+  "title": "Example five-quantity sensor reading (row of examples/five_sensor_example.csv)",
+  "description": "Engineering units and admissible ranges are those of the protocol scaling (gateway/mac/protocol.py SCALE) and the firmware range checks (firmware/esp32/calibration.h). Rows conforming to this schema in the public branch are illustrative, not field records.",
+  "type": "object",
+  "required": ["reading_id", "node_id", "sensor_id", "captured_at", "soil_moisture_vwc", "temperature_c", "humidity_rh", "ph", "illuminance_lx", "provenance"],
+  "additionalProperties": false,
+  "properties": {
+    "reading_id": {"type": "string", "pattern": "^EX-R[0-9]{3}$"},
+    "node_id": {"type": "integer", "minimum": 1, "maximum": 254},
+    "sensor_id": {"type": "string", "pattern": "^ex-sns-[0-9]{3}$"},
+    "captured_at": {"type": "string", "format": "date-time"},
+    "soil_moisture_vwc": {"type": "number", "minimum": 0, "maximum": 100, "description": "% volumetric water content, 0.1 resolution"},
+    "temperature_c": {"type": "number", "minimum": -40, "maximum": 85, "description": "degC (DS18B20), 0.1 resolution"},
+    "humidity_rh": {"type": "number", "minimum": 0, "maximum": 100, "description": "% relative humidity (SHT31-D), 0.1 resolution"},
+    "ph": {"type": "number", "minimum": 3, "maximum": 10, "description": "pH (SEN0161-V2), electrode linear range, 0.01 resolution"},
+    "illuminance_lx": {"type": "number", "minimum": 0, "maximum": 48980, "description": "lux (BH1750FVI), 5 lx resolution, CRT scale cap 48,980 lx"},
+    "provenance": {"const": "illustrative"}
+  }
+}
