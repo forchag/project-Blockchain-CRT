@@ -1,6 +1,6 @@
 # Firmware reproducibility
 
-`firmware/esp32` is the firmware that ran on the ESP32 field nodes; the gateway and Fabric side ran on Raspberry Pi (see [GATEWAY_PROTOCOL.md](GATEWAY_PROTOCOL.md) and [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md)). Each node is an ESP32-WROOM-32 with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project.
+`firmware/esp32` is the firmware that ran on the ESP32 field nodes; the gateway and Fabric side ran on Raspberry Pi (see [GATEWAY_PROTOCOL.md](GATEWAY_PROTOCOL.md) and [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md)). Each node is an ESP32-WROOM-32 with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described in the paper.
 
 ## Hardware profile
 
@@ -92,6 +92,6 @@ Then generate and flash the NVS partition with ESP-IDF's `nvs_partition_gen.py` 
 
 ## Scope
 
-The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes can't be recreated from this source tree, and their logs are among the withheld field records.
+The adaptive-mode outcomes reported for the deployment are not implemented in this firmware, which runs the fixed 1800 s cycle; the paper says so.
 
 The ESP32 cross-compile of the Arduino-dependent files runs only in CI (`.github/workflows/build-firmware.yml`); the host tests cover the platform-independent logic only.

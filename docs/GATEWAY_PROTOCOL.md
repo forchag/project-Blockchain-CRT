@@ -1,6 +1,6 @@
 # Gateway protocol
 
-The gateway side of the LoRa CRT protocol lives in `gateway/mac` (Python 3.13) and `gateway/fabric-submitter` (Go 1.22+). This is the gateway code used in the 2025 deployment. The deployment's gateway logs are withheld for privacy reasons.
+The gateway side of the LoRa CRT protocol lives in `gateway/mac` (Python 3.13) and `gateway/fabric-submitter` (Go 1.22+). This is the gateway code used in the 2025 deployment. The deployment's gateway logs are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request.
 
 ## Frames
 
@@ -81,4 +81,4 @@ python -m gateway.gateway_service --generate-signing-key build/keys/ex-gw-north.
 python -m gateway.gateway_service --gateway ex-gw-north --port 1700 --out readings.jsonl --signing-key build/keys/ex-gw-north.ed25519.pem
 ```
 
-The roster defaults to `config/deployment.example.yaml` (illustrative); pass `--deployment` with your own. The software can be tested with physical LoRa hardware or illustrative traffic. Running it reproduces its protocol behavior, not the manuscript's field measurements, whose logs are withheld.
+The roster defaults to `config/deployment.example.yaml` (illustrative); pass `--deployment` with your own. The software can be tested with physical LoRa hardware or illustrative traffic. Running it reproduces its protocol behavior, not the paper's field measurements. Field logs and performance records are not in this repository.

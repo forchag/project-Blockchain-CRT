@@ -1,8 +1,7 @@
 # Evidence boundaries
 
-This repository demonstrates the encoding, the protocol and the arithmetic. The manuscript also reports bench and field measurements, but the records behind them are withheld for privacy reasons (see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)). This document separates what the public code establishes from what only those records could.
+This repository demonstrates the encoding, the protocol and the arithmetic. The paper reports bench and field measurements whose records are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request (see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)). What this repository establishes is different from what those records establish, and this document spells out which is which.
 
-A passing test shows the code works on public inputs. It doesn't reconstruct a field observation.
 
 ## What a passing run establishes
 
@@ -18,7 +17,7 @@ A passing test shows the code works on public inputs. It doesn't reconstruct a f
 
 Bench-measured values (INA219 energy per packet, 40.4 and 54.9 TPS, 321.5 ms contract execution, 8.2 s Raft recovery, 600 residue packets per 60 s) were measured on the original bench hardware in the original deployment. The repository carries the procedures (`benchmarks/`) and prints the reported numbers under the label `bench-measured`. Running those procedures on other hardware produces other numbers, and those numbers describe that other hardware, not the original bench. The example network here, for instance, gave 17.5 TPS at concurrency 10 on a shared cloud container. That is a measurement of that container, not a substitute for the bench-measured 40.4 TPS, and it neither confirms nor contradicts it.
 
-Field-measured values (1.22 s median endorsement latency, 99.4 % uptime, 10.5 % rejected writes, 9.8 % two-residue records, 40.4 / 34.6 % water reduction, 33.9 % labour reduction, the yield changes, the adaptive-mode logs) were measured in the 2025 Sfax deployment. Those records are withheld for privacy reasons, and the analytical-output tests are not a field replication. Where the study reports both a count and a ratio (15,414 of 146,311), the analysis checks that the ratio follows from the count and labels the result `derived (from field-measured)`: the arithmetic is public, the counts are not.
+Field-measured values (1.22 s median endorsement latency, about 27 min median commit latency, 99.4 % uptime, 10.5 % rejected writes, 9.8 % two-residue records, 40.4 / 34.6 % water reduction, 33.9 % labour reduction, the yield changes, the adaptive-mode logs) were measured in the 2025 Sfax deployment. The field and bench records behind the paper's measured results are withheld from this repository for privacy reasons; they are available from the corresponding author on reasonable request (see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)). The code's analytical-output tests do not constitute field replication. Where the study reports both a count and a ratio (15,414 of 146,311), the analysis checks that the ratio follows from the count and labels the result `derived (from field-measured)`: the arithmetic is public, the counts are in the field records.
 
 Measured values with no published derivation (the Table 10 hardware percentages, the 439 B ledger record estimate) are reported as measured. The repository offers no derivation for them; that reflects what can be published, not doubt about the measurement.
 
@@ -32,4 +31,4 @@ Outputs of procedures you run yourself (benchmarks, failover trials, the integra
 
 ## Reading a result correctly
 
-If a test named after a study quantity passes, the code that computes or handles that quantity works on public inputs. The corresponding field result is reported in the manuscript and rests on the withheld records. This repository demonstrates the code and the arithmetic; the observation itself stays with the withheld data.
+If a test named after a study quantity passes, the code that computes or handles that quantity works on public inputs. The corresponding field result is reported in the paper; this repository demonstrates code and arithmetic and does not re-derive a field observation.

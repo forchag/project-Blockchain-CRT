@@ -29,7 +29,7 @@ numbers, not records: no raw trace, log line, ledger entry or per-plot value sta
 this repository. The analysis prints them under their labels and never substitutes them for, or
 derives them from, the analytical results.
 
-Never copy real measurements into `examples/`; `tests/test_public_data_safety.py` fails on field identifiers and field-era timestamps. See [docs/DATA_AVAILABILITY.md](../docs/DATA_AVAILABILITY.md).
+Do not copy field or bench records into `examples/`. This directory is illustrative only.
 
 Regenerate nothing here from real data. To test with your own measurements, write them to a new
 file outside `examples/` and point the relevant script at it (`--trials`, `--config`, `--plots`,

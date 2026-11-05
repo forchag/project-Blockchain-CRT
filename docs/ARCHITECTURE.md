@@ -2,7 +2,7 @@
 
 The system moves five soil and climate quantities from a battery-powered ESP32 node, through a Raspberry Pi gateway, to a Hyperledger Fabric ledger whose peers also ran on Raspberry Pi. On the radio, each quantity travels as three Chinese Remainder Theorem residues on three LoRa channels, so a reading survives the loss of any one residue per quantity, or of a whole channel.
 
-> **Scope of this document.** This is the architecture of the deployed system as implemented in this code. `blockchain/example-network` is a fresh single-host test environment with generated identities, not the field network. Field data and logs are withheld for privacy reasons; see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
+> **Scope of this document.** This is the architecture of the deployed system as implemented in this code and described in the paper. `blockchain/example-network` is a fresh single-host test environment with generated identities, not the field network. Field records are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request; see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
 
 ```
  ESP32 node (firmware/esp32)                Gateway (gateway/)                          Fabric 2.5 (blockchain/)
@@ -41,7 +41,7 @@ The scaled integer of every quantity is below 9,797 = 97 x 101, the smallest pro
 
 ## Analysis and benchmarks
 
-`analysis/` computes every result that follows from published formulas and labels each number by provenance; `benchmarks/` holds the procedures used in the original bench measurements (closed-loop load, RBAC on/off comparison, Raft failover, crypto micro-benchmark, fixed-point baseline). The manuscript reports benchmark and field results whose records are withheld for privacy reasons; the analysis prints them under their labels and doesn't re-derive them. See [ANALYTICAL_REPRODUCIBILITY.md](ANALYTICAL_REPRODUCIBILITY.md).
+`analysis/` computes every result that follows from published formulas and labels each number by provenance; `benchmarks/` holds the procedures used in the original bench measurements (closed-loop load, RBAC on/off comparison, Raft failover, crypto micro-benchmark, fixed-point baseline). The paper's benchmark and field results come from records that are withheld from this repository for privacy reasons (see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)); the analysis prints them under their labels and doesn't re-derive them. See [ANALYTICAL_REPRODUCIBILITY.md](ANALYTICAL_REPRODUCIBILITY.md).
 
 ## Repository map
 

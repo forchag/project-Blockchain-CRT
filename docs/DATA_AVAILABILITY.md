@@ -1,25 +1,26 @@
-# Data availability
+# Data availability and repository scope
 
-The research data behind the manuscript is withheld for privacy reasons and is not included in this repository. That covers the 2025 field and bench records and the 2026 cloud experiment records: sensor readings, plot-level agronomic measurements, calibration records, device and gateway logs, ledger exports, certificates and benchmark traces. None of it is published here, linked from here, or derived into any file here.
+Research datasets are not included in this code repository. It holds firmware, gateway software,
+chaincode, an example Fabric network, benchmark procedures and analysis scripts, with configuration,
+tests and documentation.
 
-What the repository does contain is software (firmware, gateway, chaincode, analysis and benchmark scripts), configuration, tests and small illustrative fixtures in `examples/`. Those fixtures were written for the tests; their values are invented or computed from the protocol code, and none was copied, sampled or anonymised from the withheld records. `make reproduce` runs on the fixtures and public parameters alone.
+The field and bench records behind the paper's measured results, including the per-transaction
+latency extract and the field orderer configuration, are withheld from this repository for privacy
+reasons. They are available from the corresponding author on reasonable request. The complete peer
+logs, the orderer configuration of the controlled benchmarks and the per-trial leader-failure records
+were not retained.
 
-## Running the analysis on your own inputs
+Small illustrative fixtures in `examples/` support executable demonstrations and tests. They are not
+field evidence. `make reproduce` runs with those fixtures and public parameters alone.
 
-The field-analysis scripts take an explicit input directory with `--data-dir`. Nothing is downloaded automatically.
+## Running the field analysis on supplied records
 
 ```bash
 python scripts/prepare_field_plots.py --data-dir /absolute/path/to/agronomic
-```
-
-```bash
 python scripts/reconcile_field_water.py --data-dir /absolute/path/to/agronomic
-```
-
-```bash
 make field-results FIELD_DATA=/absolute/path/to/agronomic
 ```
 
-Run a script with `--help` for its arguments. Results are written under the git-ignored `results/manuscript/`, and the scripts never modify their inputs. Keep your own observations outside the repository, record their SHA-256 hashes and collection metadata alongside them, and don't adjust values to match manuscript figures.
-
-Results from the 2025 field and bench work and from the 2026 cloud experiments come from different hosts and campaigns. Analyse them separately; their numbers need not agree. See [evidence boundaries](EVIDENCE_BOUNDARIES.md) for what the public code can and can't establish without the withheld data.
+The scripts expect `plot_assignment.csv`, `per_plot_yield.csv`, `per_plot_water_application.csv`,
+`per_plot_labour.csv` and, where available, `flow_meter_readings.csv`. Results are written under
+`results/manuscript/`; input values are never modified and nothing is downloaded.

@@ -12,7 +12,7 @@ The first command recomputes every result calculable from public parameters and 
 
 Parameters live in `config/analytical_parameters.yaml`, `config/radio.example.yaml` (capacity block) and `config/economics.example.yaml`. Values marked `assumed` there are illustrative and say so in the output notes.
 
-> **How to read the evidence labels.** `not reproducible` means *not reconstructable from this repository alone*; it says nothing about whether a value was measured. The bench and field records are withheld for privacy reasons ([DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)). `derived` means computed from other published values. `assumed` means an illustrative placeholder chosen for the example.
+> **How to read the evidence labels.** `not reproducible` means *not reconstructable from this repository alone*; it says nothing about whether a value was measured. The benchmark and field records are withheld from this repository for privacy reasons and are available from the corresponding author on reasonable request; see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md). `derived` means computed from other published values. `assumed` means an illustrative placeholder chosen for the example.
 
 ## 9.1 CRT encoding [analytical]
 

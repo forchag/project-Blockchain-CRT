@@ -2,13 +2,13 @@
 
 Code, tests, analytical models and example configuration for *CRT-Based Multi-Channel Residue Transmission with Gateway-Side Parallel Demodulation for Distributed Edge Blockchain Computing: A Scalable IoT Cluster Architecture for Arid Agriculture*.
 
-The package has two aims: make the five-sensor firmware, gateway protocol and Hyperledger Fabric implementation reproducible, and recompute every result that follows from published formulas and parameters. Field and bench results depend on data that is withheld for privacy reasons, so they are reported under their labels rather than re-derived.
+**Purpose:** make the five-sensor firmware, the gateway protocol, the Hyperledger Fabric implementation, the benchmark procedures and the paper's analytical results reproducible.
 
 ## Repository scope
 
-This repository contains firmware, gateway software, chaincode and analysis scripts, with supporting configuration, tests and documentation. The research data from the 2025 field deployment and the 2026 cloud experiments is withheld for privacy reasons and is not included. Small illustrative fixtures in `examples/` support the software tests; they are invented, not field evidence.
+This repository contains firmware, gateway software, chaincode and analysis scripts, with supporting configuration, tests and documentation. The research data from the 2025 field deployment and the 2026 cloud experiments is withheld for privacy reasons and is not included; it is available from the corresponding author on reasonable request. Small illustrative fixtures in `examples/` support the software tests; they are invented, not field evidence.
 
-See [data availability](docs/DATA_AVAILABILITY.md) for running the analysis on your own inputs.
+See [data availability](docs/DATA_AVAILABILITY.md) for running the field analysis with separately supplied records.
 
 ## Architecture
 
@@ -21,10 +21,9 @@ See [firmware](docs/FIRMWARE_REPRODUCIBILITY.md) and [evidence boundaries](docs/
 | Goal | What is available now | Remaining validation |
 |---|---|---|
 | Code reproducibility | ESP32 source and tests; gateway MAC and submitter; chaincode and example Fabric network | Run full tests/CI; compare recovered deployment builds and configurations with source; resolve any mismatch with manuscript methods |
-| Results reproducibility | Analytical scripts, expected analytical results, benchmark drivers and illustrative test inputs | Map inputs to tables/figures; run re-computation; report mismatches |
-| Data | Withheld for privacy reasons; not in this repository | Re-computation of field and benchmark results requires access to the withheld records |
+| Results reproducibility | Analytical scripts, expected analytical results, benchmark drivers and illustrative test inputs | Field and bench results need the original records, available from the corresponding author on request |
 
-The manuscript's benchmark and field figures are reported here, not re-derived, because the records behind them are withheld. Treat results produced from formula assumptions as analytical, from the code as software tests, and from new experiments as new results; do not substitute one for another.
+The paper's benchmark and field figures were measured on the original Raspberry Pi bench and in the 2025 field deployment. `make reproduce` prints them under their labels (`bench-measured`, `field-measured`) and never re-derives them from the analytical model. Treat results produced from formula assumptions as analytical, from the code as software tests, and from new runs as measurements of your own host.
 
 ## Quick start
 
@@ -53,13 +52,13 @@ A cross-compiled ESP32 firmware build is handled by `firmware/esp32/build_firmwa
 - [Gateway protocol](docs/GATEWAY_PROTOCOL.md)
 - [Blockchain reproducibility](docs/BLOCKCHAIN_REPRODUCIBILITY.md)
 - [Analytical reproducibility](docs/ANALYTICAL_REPRODUCIBILITY.md)
-- [Results workflows](docs/RESULTS_REPRODUCIBILITY.md)
+- [Results reproducibility](docs/RESULTS_REPRODUCIBILITY.md)
 - [Software versions](docs/SOFTWARE_VERSIONS.md)
 - [Illustrative inputs](examples/README.md)
 
 ## Research integrity and security
 
-Don't relabel generated files as field measurements. Never commit operational private keys, passwords, enrollment secrets, participant information, certificates or ledger exports; `tests/test_public_data_safety.py` and the `public-safety` workflow check for them. Document discrepancies rather than changing numbers to match the manuscript.
+Keep illustrative fixtures and outputs of new runs separate from original field measurements. Never publish operational private keys, passwords, enrolment secrets, identifying participant information or certificate and ledger material.
 
 ## Analysis inputs
 
