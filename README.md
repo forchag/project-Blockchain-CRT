@@ -12,7 +12,7 @@ See [data availability](docs/DATA_AVAILABILITY.md) for running the analysis on y
 
 ## Architecture
 
-The firmware in `firmware/esp32/` is the code the field nodes ran. It handles soil moisture, soil pH, temperature, humidity and light. The reference encoding uses three residues per valid quantity (moduli 97, 101 and 103), giving up to fifteen eight-byte LoRa residue frames per five-quantity reading on 868.1, 868.3 and 868.5 MHz. The gateway reference in `gateway/` implements polling, acknowledgements, reconstruction, signing and Fabric submission. The example blockchain network in `blockchain/` runs a four-peer, three-orderer test environment with role-based authorization.
+In the field, the code in this repository ran on two kinds of hardware: ESP32 sensor nodes running `firmware/esp32/`, and Raspberry Pi boards running the gateway software and the Hyperledger Fabric peers. The nodes measure soil moisture, soil pH, temperature, humidity and light. The encoding uses three residues per valid quantity (moduli 97, 101 and 103), giving up to fifteen eight-byte LoRa residue frames per five-quantity reading on 868.1, 868.3 and 868.5 MHz. The gateway software in `gateway/` implements polling, acknowledgements, reconstruction, signing and Fabric submission. The example blockchain network in `blockchain/` runs a four-peer, three-orderer test environment with role-based authorization.
 
 See [firmware](docs/FIRMWARE_REPRODUCIBILITY.md) and [evidence boundaries](docs/EVIDENCE_BOUNDARIES.md) for what the tests cover.
 

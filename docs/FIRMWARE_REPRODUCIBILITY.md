@@ -1,6 +1,6 @@
 # Firmware reproducibility
 
-`firmware/esp32` is the firmware that ran on the field nodes: an ESP32-WROOM-32 node with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project.
+`firmware/esp32` is the firmware that ran on the ESP32 field nodes; the gateway and Fabric side ran on Raspberry Pi (see [GATEWAY_PROTOCOL.md](GATEWAY_PROTOCOL.md) and [BLOCKCHAIN_REPRODUCIBILITY.md](BLOCKCHAIN_REPRODUCIBILITY.md)). Each node is an ESP32-WROOM-32 with an RFM95W (SX1276) radio and a DS3231 real-time clock. It implements the full five-sensor CRT method described by the project.
 
 ## Hardware profile
 
@@ -90,12 +90,8 @@ python3 firmware/esp32/tools/gen_calibration_nvs.py --cal-dir <your calibration 
 
 Then generate and flash the NVS partition with ESP-IDF's `nvs_partition_gen.py` and `esptool.py` as the tool's docstring shows. Do not flash records built from `examples/calibration/`; they're invented for testing code. The deployment's calibration records are withheld for privacy reasons ([DATA_AVAILABILITY.md](DATA_AVAILABILITY.md)).
 
-## Known discrepancies and scope
+## Scope
 
-Two things sit outside this firmware's scope and are worth naming.
-
-**POLL/ACK in the published description.** The manuscript's Data/Code availability statement describes the reference firmware as having no POLL/ACK exchange, but this firmware implements one. The availability statement is out of date on this point and needs correcting.
-
-**Adaptive modes.** The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes can't be recreated from this source tree, and their logs are among the withheld field records.
+The adaptive-mode outcomes reported for the deployment are not implemented in this firmware; this firmware implements the fixed 1800 s cycle. The reported adaptive-mode outcomes can't be recreated from this source tree, and their logs are among the withheld field records.
 
 The ESP32 cross-compile of the Arduino-dependent files runs only in CI (`.github/workflows/build-firmware.yml`); the host tests cover the platform-independent logic only.

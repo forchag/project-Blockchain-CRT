@@ -1,6 +1,6 @@
 # Architecture
 
-The system moves five soil and climate quantities from a battery-powered ESP32 node to a Hyperledger Fabric ledger. On the radio, each quantity travels as three Chinese Remainder Theorem residues on three LoRa channels, so a reading survives the loss of any one residue per quantity, or of a whole channel.
+The system moves five soil and climate quantities from a battery-powered ESP32 node, through a Raspberry Pi gateway, to a Hyperledger Fabric ledger whose peers also ran on Raspberry Pi. On the radio, each quantity travels as three Chinese Remainder Theorem residues on three LoRa channels, so a reading survives the loss of any one residue per quantity, or of a whole channel.
 
 > **Scope of this document.** This is the architecture of the deployed system as implemented in this code. `blockchain/example-network` is a fresh single-host test environment with generated identities, not the field network. Field data and logs are withheld for privacy reasons; see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
 
