@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/public-reproducibility/schemas/example_sensor_reading.schema.json",
+  "$id": "https://github.com/forchag/project-Blockchain-CRT/blob/main/schemas/example_sensor_reading.schema.json",
   "title": "Example five-quantity sensor reading (row of examples/five_sensor_example.csv)",
   "description": "Engineering units and admissible ranges are those of the protocol scaling (gateway/mac/protocol.py SCALE) and the firmware range checks (firmware/esp32/calibration.h). Rows conforming to this schema in the public branch are illustrative, not field records.",
   "type": "object",

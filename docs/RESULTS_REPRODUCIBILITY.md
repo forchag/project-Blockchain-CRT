@@ -30,7 +30,7 @@ python benchmarks/rbac_overhead.py data/cloud_experiments_2026/benchmarks/throug
 
 These outputs must remain separate; they reflect different hosts and experiments. The numbers need not match one another.
 
-To run other analyses against the complete source dataset, initialize the pinned submodule and use appropriate data paths with scripts that support explicit input arguments. Do not overwrite curated source data.
+To run other analyses against the complete source dataset, use the bundled files under `external/CRT-Based-Multi-Channel-Residue/` and appropriate data paths with scripts that support explicit input arguments. Do not overwrite curated source data.
 
 ## Evidence integrity
 

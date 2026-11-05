@@ -29,7 +29,7 @@ numbers, not records: no raw trace, log line, ledger entry or per-plot value sta
 this repository. The analysis prints them under their labels and never substitutes them for, or
 derives them from, the analytical results.
 
-Do not copy the separate [candidate dataset](https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/main/data) into `examples/`. Its entries must pass the verification process described in [docs/DATA_INTEGRATION_PLAN.md](../docs/DATA_INTEGRATION_PLAN.md). This directory remains illustrative even if the candidate dataset is integrated elsewhere.
+Do not copy the bundled [candidate dataset](../external/CRT-Based-Multi-Channel-Residue/data) into `examples/`. Its entries must pass the verification process described in [docs/DATA_INTEGRATION_PLAN.md](../docs/DATA_INTEGRATION_PLAN.md). This directory remains illustrative even if the candidate dataset is integrated elsewhere.
 
 Regenerate nothing here from private data. To test with your own measurements, write them to a new
 file outside `examples/` and point the relevant script at it (`--trials`, `--config`, `--plots`,

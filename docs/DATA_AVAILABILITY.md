@@ -1,6 +1,6 @@
 # Data availability — 2025 field, 2025 bench and 2026 cloud
 
-The code and a curated set of **66 byte-identical dataset copies** are now in this repository's `data/` directory. The complete source files remain in [forchag/CRT-Based-Multi-Channel-Residue](https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/f21339dcdf5d8cb3ba73d61b145baa2d6b4ca384/data), pinned as an optional Git submodule at `external/CRT-Based-Multi-Channel-Residue`.
+The code and a curated set of **66 byte-identical dataset copies** are now in this repository's `data/` directory. The complete source files are included in the [bundled source snapshot](../external/CRT-Based-Multi-Channel-Residue/data), tracked as ordinary files in this repository.
 
 ## Experiment groups
 
@@ -22,7 +22,7 @@ The author confirms that the 2025 field collection comes from the field deployme
 python scripts/verify_imported_data.py
 ```
 
-Each local imported blob is compared with its Git blob hash from the pinned source commit. All 66 staged files were compared at the time of migration, and matched exactly. Large records were not replicated: the source index links them through the optional submodule.
+Each local imported blob is compared with its Git blob hash from the pinned source commit. All 66 staged files were compared at the time of migration, and matched exactly. Large records are also included in the bundled source snapshot. The source index retains historical import statuses and original hashes.
 
 ## Safe data handling
 

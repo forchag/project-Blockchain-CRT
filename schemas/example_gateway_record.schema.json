@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/public-reproducibility/schemas/example_gateway_record.schema.json",
+  "$id": "https://github.com/forchag/project-Blockchain-CRT/blob/main/schemas/example_gateway_record.schema.json",
   "title": "Gateway completed-reading record (one line of readings.jsonl)",
   "description": "Written by gateway/gateway_service.py for each completed reading and read by gateway/fabric-submitter (GatewayReading). gateway_signature is present when the service runs with --signing-key.",
   "type": "object",

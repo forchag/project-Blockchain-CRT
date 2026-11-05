@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/forchag/CRT-Based-Multi-Channel-Residue/tree/public-reproducibility/schemas/example_transaction.schema.json",
+  "$id": "https://github.com/forchag/project-Blockchain-CRT/blob/main/schemas/example_transaction.schema.json",
   "title": "Example WriteSensor transaction (examples/example_transactions.json)",
   "description": "Illustrative submissions with placeholder transaction IDs and the decision hrbac-cc is expected to return. Not a ledger export: real Fabric transaction IDs are 64 hex characters and never appear in the examples.",
   "type": "object",
