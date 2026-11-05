@@ -3,11 +3,10 @@
 PYTHON ?= python3
 NET := blockchain/example-network
 
-.PHONY: help install check test firmware-test go-test reproduce validate figures safety data-check field-results \
+.PHONY: help install check test firmware-test go-test reproduce validate figures safety field-results \
         firmware network-up network-down integration benchmark-smoke failover-smoke clean
 
 help:
-	@echo "data-check       check copied dataset SHA-1 Git blob hashes"
 	@echo "field-results   assemble plot-level results and run R analysis"
 	@echo "install          pip install --require-hashes -r requirements-lock.txt"
 	@echo "check            safety + firmware-test + test + go-test + reproduce (no Docker needed)"
@@ -27,14 +26,12 @@ help:
 install:
 	$(PYTHON) -m pip install --require-hashes -r requirements-lock.txt
 
-check: safety data-check firmware-test test go-test reproduce
+check: safety firmware-test test go-test reproduce
 
-data-check:
-	$(PYTHON) scripts/verify_imported_data.py
-
-field-results: data-check
-	$(PYTHON) scripts/prepare_field_plots.py
-	$(PYTHON) scripts/reconcile_field_water.py
+field-results:
+	@test -n "$(FIELD_DATA)" || (echo "Set FIELD_DATA to your external agronomic CSV directory"; exit 2)
+	$(PYTHON) scripts/prepare_field_plots.py --data-dir "$(FIELD_DATA)"
+	$(PYTHON) scripts/reconcile_field_water.py --data-dir "$(FIELD_DATA)"
 	Rscript analysis/agronomic_statistics.R --plots results/manuscript/field_plot_inputs.csv --out results/manuscript/agronomic
 
 test:

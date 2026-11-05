@@ -42,11 +42,8 @@ def text(f):
     return b.decode("utf-8", errors="replace")
 
 
-def test_organised_datasets_have_integrity_manifest():
-    assert os.path.isfile(os.path.join(ROOT, 'data/manifests/IMPORTED_FILES.csv'))
-    result = subprocess.run(['python3', 'scripts/verify_imported_data.py'], cwd=ROOT, capture_output=True, text=True)
-    assert result.returncode == 0, result.stdout + result.stderr
-
+def test_no_bundled_research_datasets():
+    assert not [f for f in FILES if f.startswith(("data/", "external/"))]
 
 
 def test_no_key_material_certificates_or_env_files():

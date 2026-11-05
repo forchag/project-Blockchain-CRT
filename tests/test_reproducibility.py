@@ -82,5 +82,5 @@ def test_evidence_boundary_statements():
     readme = open(os.path.join(ROOT, "README.md")).read()
     assert "not" in readme and "2026" in readme
     da = open(os.path.join(DOCS, "DATA_AVAILABILITY.md")).read()
-    assert "cloud_experiments_2026" in da
-    assert "data/field_2025" in da
+    assert "not included" in da
+    assert "--data-dir" in da

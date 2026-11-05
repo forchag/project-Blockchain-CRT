@@ -2,7 +2,7 @@
 
 The system moves five soil and climate quantities from a battery-powered ESP32 node to a Hyperledger Fabric ledger. On the radio, each quantity travels as three Chinese Remainder Theorem residues on three LoRa channels, so a reading survives the loss of any one residue per quantity, or of a whole channel.
 
-> **Scope of this document.** This is the system architecture implemented by the public reference code and corresponding to the manuscript's described methods. Exact identity of historical deployed source, firmware binaries, gateway settings and chaincode builds is **not independently established**. `blockchain/example-network` is a fresh single-host test environment with generated identities, not the field network. Candidate historical datasets and logs are published in a [bundled dataset](../external/CRT-Based-Multi-Channel-Residue/data), but their capture provenance requires verification; see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
+> **Scope of this document.** This is the system architecture implemented by the public reference code and corresponding to the manuscript's described methods. Exact identity of historical deployed source, firmware binaries, gateway settings and chaincode builds is **not independently established**. `blockchain/example-network` is a fresh single-host test environment with generated identities, not the field network. Candidate historical datasets and logs are not distributed in this repository, but their capture provenance requires verification; see [DATA_AVAILABILITY.md](DATA_AVAILABILITY.md).
 
 ```
  ESP32 node (firmware/esp32)                Gateway (gateway/)                          Fabric 2.5 (blockchain/)

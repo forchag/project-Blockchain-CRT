@@ -21,8 +21,6 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install --require-hashes -r requirements-lock.txt
-      - name: Verify imported dataset hashes
-        run: python scripts/verify_imported_data.py
       - name: Public-data safety tests
         run: python -m pytest -q tests/test_public_data_safety.py
       - name: No private keys or certificates in tracked files

@@ -12,18 +12,17 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "data/field_2025/agronomic"
 OUTPUT = ROOT / "results/manuscript"
 
 
-def rows(filename: str):
-    with (SRC / filename).open(newline="", encoding="utf-8-sig") as fh:
+def rows(source: Path, filename: str):
+    with (source / filename).open(newline="", encoding="utf-8-sig") as fh:
         yield from csv.DictReader(fh)
 
 
-def accumulate(filename: str, field: str, divisor: float = 1.0) -> dict[str, float]:
+def accumulate(source: Path, filename: str, field: str, divisor: float = 1.0) -> dict[str, float]:
     totals = defaultdict(float)
-    for r in rows(filename):
+    for r in rows(source, filename):
         if r[field] != "":
             totals[r["plot_id"]] += float(r[field]) / divisor
     return dict(totals)
@@ -40,18 +39,19 @@ def write(path: Path, columns: list[str], values: list[dict]):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--data-dir", type=Path, required=True, help="External agronomic CSV directory (not included)")
     ap.add_argument("--out", type=Path, default=OUTPUT / "field_plot_inputs.csv")
     args = ap.parse_args()
 
-    plots = list(rows("plot_assignment.csv"))
+    plots = list(rows(args.data_dir, "plot_assignment.csv"))
     if len(plots) != 12 or len({x["plot_id"] for x in plots}) != 12:
         raise ValueError("Expected 12 unique plots in the 2025 randomized block design")
     ids = {x["plot_id"] for x in plots}
 
-    yields = accumulate("per_plot_yield.csv", "yield_kg")
-    scheduled_water = accumulate("per_plot_water_application.csv", "water_volume_l", divisor=1000.0)
-    labor_hours = accumulate("per_plot_labour.csv", "hours")
-    labor_costs = accumulate("per_plot_labour.csv", "labour_cost_usd")
+    yields = accumulate(args.data_dir, "per_plot_yield.csv", "yield_kg")
+    scheduled_water = accumulate(args.data_dir, "per_plot_water_application.csv", "water_volume_l", divisor=1000.0)
+    labor_hours = accumulate(args.data_dir, "per_plot_labour.csv", "hours")
+    labor_costs = accumulate(args.data_dir, "per_plot_labour.csv", "labour_cost_usd")
 
     for name, totals in (("yield", yields), ("scheduled water", scheduled_water),
                          ("labor hours", labor_hours), ("labor costs", labor_costs)):

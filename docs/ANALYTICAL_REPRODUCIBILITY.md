@@ -60,7 +60,7 @@ Water benefit = m³ saved x tariff / exchange rate; annual = season x 2; net = g
 
 ## 9.8 Agronomic statistics
 
-`analysis/agronomic_statistics.R` fits `y ~ block + treatment` per crop for yield, scheduled water and labour per hectare in a 3-block RCBD (treatment F test on 1 and 2 df) and writes means, differences, F, p and 95 % intervals. It runs on `examples/agronomic_plots.example.csv`, twelve invented plots. Its output demonstrates the statistical procedure; it is not a re-derivation of the field's 40.4 % / 34.6 % water, 33.9 % labour or yield results, for which source plot records are now available under `data/field_2025/agronomic/`.
+`analysis/agronomic_statistics.R` fits `y ~ block + treatment` per crop for yield, scheduled water and labour per hectare in a 3-block RCBD (treatment F test on 1 and 2 df) and writes means, differences, F, p and 95 % intervals. It runs on `examples/agronomic_plots.example.csv`, twelve invented plots. Its output demonstrates the statistical procedure; it is not a re-derivation of the field's 40.4 % / 34.6 % water, 33.9 % labour or yield results, for which original source plot records must be supplied separately.
 
 ## Raft timing window [analytical]
 

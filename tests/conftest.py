@@ -1,7 +1,6 @@
 """Test configuration: repository root and analysis/ on sys.path, shared helpers.
 
-Every test here runs from public inputs only (config/, examples/). Analytical tests use illustrative parameters, while separate data-integrity tests inspect
-imported source-file hashes. A green suite shows internal consistency of code, protocol and arithmetic; it does
+Every test here runs from public inputs only (config/, examples/). Analytical tests use illustrative parameters, while repository-scope tests exclude bundled research datasets. A green suite shows internal consistency of code, protocol and arithmetic; it does
 not show that any historical experiment occurred (docs/EVIDENCE_BOUNDARIES.md).
 """
 import os

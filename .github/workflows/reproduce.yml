@@ -22,13 +22,6 @@ jobs:
       - uses: r-lib/actions/setup-r@v2
         with: {r-version: "4.4"}
       - run: pip install --require-hashes -r requirements-lock.txt
-      - name: Verify imported file hashes
-        run: python scripts/verify_imported_data.py
-      - name: Rebuild recorded field plot analysis
-        run: |
-          python scripts/prepare_field_plots.py
-          python scripts/reconcile_field_water.py
-          Rscript analysis/agronomic_statistics.R --plots results/manuscript/field_plot_inputs.csv --out results/manuscript/agronomic
       - name: Reproduce analytical results (9.1-9.8, Raft window, reported values)
         run: python analysis/reproduce_analytical_results.py --out results/analytical
       - name: Validate values and labels

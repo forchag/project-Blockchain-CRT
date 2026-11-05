@@ -11,7 +11,6 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data/field_2025/agronomic"
 
 # Values transcribed from the reviewed manuscript; NOT substituted for recorded data.
 PAPER_TOTALS = {
@@ -29,18 +28,19 @@ def read(path):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("--data-dir", type=Path, required=True, help="External agronomic CSV directory (not included)")
     ap.add_argument("--out", type=Path, default=ROOT / "results/manuscript/water_reconciliation.csv")
     ap.add_argument("--tolerance-m3", type=float, default=0.5)
     ap.add_argument("--strict", action="store_true", help="fail when manuscript/source totals disagree")
     opt = ap.parse_args()
 
-    assignments = {r["plot_id"]: (r["crop"], r["treatment"]) for r in read(DATA / "plot_assignment.csv")}
+    assignments = {r["plot_id"]: (r["crop"], r["treatment"]) for r in read(opt.data_dir / "plot_assignment.csv")}
     scheduled = defaultdict(float)
-    for r in read(DATA / "per_plot_water_application.csv"):
+    for r in read(opt.data_dir / "per_plot_water_application.csv"):
         scheduled[assignments[r["plot_id"]]] += float(r["water_volume_l"]) / 1000
     meter = defaultdict(float)
     meter_events = defaultdict(int)
-    for r in read(DATA / "flow_meter_readings.csv"):
+    for r in read(opt.data_dir / "flow_meter_readings.csv"):
         if r["reading_type"] == "event_end" and r["interval_volume_l"]:
             group = assignments[r["plot_id"]]
             meter[group] += float(r["interval_volume_l"]) / 1000
